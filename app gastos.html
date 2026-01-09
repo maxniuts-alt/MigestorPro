@@ -1,0 +1,249 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MiGestor+ Pro</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+    body {
+        font-family: 'Montserrat', sans-serif;
+        margin: 0;
+        display: flex;
+        background: linear-gradient(135deg, #1E1E2F, #2C2F48);
+        color: #f0f0f0;
+        transition: background 0.5s, color 0.5s;
+    }
+    body.light-mode {
+        background: #f9fafc;
+        color: #333;
+    }
+    nav {
+        width: 250px;
+        background: #2C2F48;
+        color: white;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        padding-top: 20px;
+        position: fixed;
+        transition: transform 0.3s ease;
+    }
+    nav a {
+        color: inherit;
+        text-decoration: none;
+        padding: 15px;
+        font-size: 1.2rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+    nav a:hover {
+        background: rgba(255,255,255,0.1);
+        border-radius: 8px;
+    }
+    .hamburger {
+        display: none;
+        position: absolute;
+        top: 20px;
+        left: 20px;
+        font-size: 2rem;
+        cursor: pointer;
+    }
+    @media(max-width:768px){
+        nav { transform: translateX(-100%); }
+        nav.active { transform: translateX(0); }
+        .hamburger { display: block; color: #fff; }
+        .main { margin-left: 0; }
+    }
+    .main {
+        margin-left: 250px;
+        padding: 20px;
+        width: 100%;
+    }
+    .section { display: none; animation: fadeIn 0.4s ease-in-out; }
+    .active { display: block; }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    h2 { color: #4ADE80; }
+    input, select, button {
+        width: 100%;
+        padding: 12px;
+        margin: 10px 0;
+        border-radius: 8px;
+        border: none;
+        font-size: 1rem;
+    }
+    input, select { background: #2C2F48; color: #f0f0f0; }
+    body.light-mode input, body.light-mode select { background: #fff; color: #333; }
+    button { background: #4ADE80; color: #1E1E2F; font-weight: bold; cursor: pointer; }
+    button:hover { transform: scale(1.05); }
+    .chart-container { width: 100%; height: 300px; }
+    .progress-bar { width: 100%; height: 25px; background: #333; border-radius: 12px; overflow: hidden; }
+    .progress-fill { height: 100%; width: 0%; background: #4ADE80; transition: width 0.5s ease; }
+    .goals-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; }
+    .goal-card { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 12px; text-align: center; }
+    .goal-progress { height: 15px; background: #333; border-radius: 8px; overflow: hidden; margin-top: 10px; }
+    .goal-fill { height: 100%; width: 0%; background: #FF6B6B; transition: width 0.5s ease; }
+    .calc-container { max-width: 400px; margin: auto; background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px; }
+    .calc-display { background: rgba(255,255,255,0.1); padding: 15px; font-size: 2rem; text-align: right; border-radius: 10px; margin-bottom: 15px; color: #fff; }
+    .calculator { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .calc-btn { background: #4ADE80; color: #1E1E2F; font-size: 1.3rem; padding: 15px; border-radius: 10px; cursor: pointer; }
+    .calc-btn.op { background: #FF6B6B; color: #fff; }
+    .calc-btn.clear { grid-column: span 4; background: #FF6B6B; }
+    .dashboard { display: flex; justify-content: space-around; margin-top: 20px; }
+    .card { background: rgba(255,255,255,0.05); padding: 20px; border-radius: 12px; text-align: center; width: 30%; }
+    .motivacion { margin-top: 20px; font-size: 1.2rem; color: #FF9800; }
+</style>
+</head>
+<body>
+<div class="hamburger" onclick="toggleMenu()"><i class="fas fa-bars"></i></div>
+<nav>
+    <a onclick="showSection('inicio')"><i class="fas fa-home"></i> Inicio</a>
+    <a onclick="showSection('nuevo')"><i class="fas fa-plus"></i> Nuevo gasto</a>
+    <a onclick="showSection('gastos')"><i class="fas fa-chart-pie"></i> Mis gastos</a>
+    <a onclick="showSection('calculadora')"><i class="fas fa-calculator"></i> Calculadora</a>
+    <a onclick="showSection('mensual')"><i class="fas fa-calendar-alt"></i> Gastos mensuales</a>
+    <a onclick="showSection('metas')"><i class="fas fa-bullseye"></i> Metas</a>
+    <a onclick="toggleMode()"><i class="fas fa-adjust"></i> Modo oscuro/claro</a>
+</nav>
+
+<div class="main">
+    <!-- Inicio con Dashboard -->
+    <div id="inicio" class="section active" style="text-align:center; padding:40px;">
+        <h1 style="color:#4ADE80;">Bienvenido a MiGestor+ Pro</h1>
+        <p>Controla tus gastos, ahorra y cumple tus metas.</p>
+        <div class="dashboard">
+            <div class="card"><h3>Total Gastado</h3><p id="totalSpent">0 €</p></div>
+            <div class="card"><h3>Saldo Restante</h3><p id="saldoRestante">0 €</p></div>
+            <div class="card"><h3>Metas Activas</h3><p id="metasActivas">0</p></div>
+        </div>
+        <div class="motivacion" id="motivacion">¡Empieza a ahorrar hoy!</div>
+        <button onclick="showSection('nuevo')">Empezar ahora</button>
+    </div>
+
+    <!-- Nuevo gasto -->
+    <div id="nuevo" class="section">
+        <h2>Añadir nuevo gasto</h2>
+        <input type="number" id="amount" placeholder="Cantidad (€)">
+        <select id="category">
+            <option value="Comida">🍔 Comida</option>
+            <option value="Transporte">🚗 Transporte</option>
+            <option value="Ocio">🎬 Ocio</option>
+            <option value="Otros">📦 Otros</option>
+        </select>
+        <input type="text" id="note" placeholder="Nota (opcional)">
+        <button onclick="addExpense()">Guardar Gasto</button>
+        <button onclick="exportCSV()">Exportar a CSV</button>
+        <button onclick="resetData()">Reiniciar datos</button>
+    </div>
+
+    <!-- Mis gastos -->
+    <div id="gastos" class="section">
+        <h2>Gráfica de gastos</h2>
+        <div class="chart-container"><canvas id="expenseChart"></canvas></div>
+        <h3>Evolución mensual</h3>
+        <canvas id="monthlyChart"></canvas>
+    </div>
+
+    <!-- Calculadora -->
+    <div id="calculadora" class="section">
+        <h2>Calculadora</h2>
+        <div class="calc-container">
+            <div class="calc-display" id="calcDisplay">0</div>
+            <div class="calculator">
+                <button class="calc-btn" onclick="press('7')">7</button>
+                <button class="calc-btn" onclick="press('8')">8</button>
+                <button class="calc-btn" onclick="press('9')">9</button>
+                <button class="calc-btn op" onclick="press('/')">÷</button>
+                <button class="calc-btn" onclick="press('4')">4</button>
+                <button class="calc-btn" onclick="press('5')">5</button>
+                <button class="calc-btn" onclick="press('6')">6</button>
+                <button class="calc-btn op" onclick="press('*')">×</button>
+                <button class="calc-btn" onclick="press('1')">1</button>
+                <button class="calc-btn" onclick="press('2')">2</button>
+                <button class="calc-btn" onclick="press('3')">3</button>
+                <button class="calc-btn op" onclick="press('-')">−</button>
+                <button class="calc-btn" onclick="press('0')">0</button>
+                <button class="calc-btn" onclick="press('.')">.</button>
+                <button class="calc-btn op" onclick="press('+')">+</button>
+                <button class="calc-btn op" onclick="calculate()">=</button>
+                <button class="calc-btn clear" onclick="clearCalc()">C</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Gastos mensuales -->
+    <div id="mensual" class="section">
+        <h2>Control mensual</h2>
+        <input type="number" id="salary" placeholder="Introduce tu sueldo (€)">
+        <button onclick="updateMonthly()">Actualizar</button>
+        <h3 id="remaining">Saldo restante: 0 €</h3>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    </div>
+
+    <!-- Metas -->
+    <div id="metas" class="section">
+        <h2>Metas y objetivos</h2>
+        <input type="text" id="goalName" placeholder="Nombre de la meta">
+        <input type="number" id="goalAmount" placeholder="Cantidad objetivo (€)">
+        <button onclick="addGoal()">Añadir meta</button>
+        <div class="goals-container" id="goalsContainer"></div>
+    </div>
+</div>
+
+<script>
+function toggleMenu(){document.querySelector('nav').classList.toggle('active');}
+function showSection(id){document.querySelectorAll('.section').forEach(sec=>sec.classList.remove('active'));document.getElementById(id).classList.add('active');}
+function toggleMode(){document.body.classList.toggle('light-mode');}
+const ctx=document.getElementById('expenseChart').getContext('2d');
+const expenseChart=new Chart(ctx,{type:'doughnut',data:{labels:['Comida','Transporte','Ocio','Otros'],datasets:[{data:[0,0,0,0],backgroundColor:['#4ADE80','#2196F3','#FF9800','#9C27B0']}]}});
+const monthlyCtx=document.getElementById('monthlyChart').getContext('2d');
+const monthlyChart=new Chart(monthlyCtx,{type:'line',data:{labels:['Enero','Febrero','Marzo','Abril'],datasets:[{label:'Gastos Mensuales',data:[0,0,0,0],borderColor:'#4ADE80',fill:false}]}});
+let expenses=JSON.parse(localStorage.getItem('expenses'))||[];
+function addExpense(){const amount=parseFloat(document.getElementById('amount').value);const category=document.getElementById('category').value;if(!amount||amount<=0){alert('Introduce una cantidad válida');return;}expenses.push({amount,category});localStorage.setItem('expenses',JSON.stringify(expenses));updateChart();updateDashboard();motivacion();}
+function updateChart(){let totals={Comida:0,Transporte:0,Ocio:0,Otros:0};expenses.forEach(exp=>totals[exp.category]+=exp.amount);expenseChart.data.datasets[0].data=[totals.Comida,totals.Transporte,totals.Ocio,totals.Otros];expenseChart.update();}
+function updateDashboard(){const totalSpent=expenses.reduce((sum,exp)=>sum+exp.amount,0);document.getElementById('totalSpent').innerText=totalSpent+' €';document.getElementById('metasActivas').innerText=goals.length;}
+updateChart();updateDashboard();
+function updateMonthly(){const salary=parseFloat(document.getElementById('salary').value);const totalSpent=expenses.reduce((sum,exp)=>sum+exp.amount,0);const remaining=salary-totalSpent;document.getElementById('remaining').innerText=`Saldo restante: ${remaining.toFixed(2)} €`;document.getElementById('saldoRestante').innerText=remaining+' €';let percent=(totalSpent/salary)*100;if(percent>100)percent=100;const fill=document.getElementById('progressFill');fill.style.width=percent+'%';fill.style.background=percent<70?'#4ADE80':percent<100?'#FF9800':'#FF6B6B';if(percent>=80)alert('¡Cuidado! Has superado el 80% de tu presupuesto');}
+let goals=[];function addGoal(){const name=document.getElementById('goalName').value;const amount=parseFloat(document.getElementById('goalAmount').value);if(!name||!amount){alert('Introduce nombre y cantidad válida');return;}goals.push({name,amount,progress:0});renderGoals();updateDashboard();}
+function renderGoals(){const container=document.getElementById('goalsContainer');container.innerHTML='';goals.forEach(goal=>{container.innerHTML+=`<div class="goal-card"><h3>${goal.name}</h3><p>Objetivo: ${goal.amount} €</p><div class="goal-progress"><div class="goal-fill" style="width:${goal.progress}%"></div></div><button onclick="updateGoal('${goal.name}')">Actualizar progreso</button></div>`;});}
+function updateGoal(name){const goal=goals.find(g=>g.name===name);const extra=prompt('¿Cuánto has ahorrado para esta meta? (€)');if(extra&&!isNaN(extra)){goal.progress+=(parseFloat(extra)/goal.amount)*100;if(goal.progress>100)goal.progress=100;renderGoals();if(goal.progress>=100)alert('¡Felicidades! Has completado la meta');}}
+function exportCSV(){let csv='Cantidad,Categoría\n';expenses.forEach(e=>{csv+=`${e.amount},${e.category}\n`;});const blob=new Blob([csv],{type:'text/csv'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='gastos.csv';a.click();}
+function resetData(){expenses=[];goals=[];localStorage.clear();updateChart();updateDashboard();renderGoals();alert('Datos reiniciados');}
+let calcInput='';function press(value){calcInput+=value;document.getElementById('calcDisplay').innerText=calcInput;}
+function calculate(){try{calcInput=eval(calcInput).toString();document.getElementById('calcDisplay').innerText=calcInput;}catch{document.getElementById('calcDisplay').innerText='Error';}}
+function clearCalc(){calcInput='';document.getElementById('calcDisplay').innerText='0';}
+function motivacion(){const frases=['¡Sigue así, estás ahorrando!','¡Buen trabajo, controla tus gastos!','¡Cada euro cuenta!','¡Estás más cerca de tu meta!'];document.getElementById('motivacion').innerText=frases[Math.floor(Math.random()*frases.length)];}
+</script>
+<script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-app.js";
+  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.7.0/firebase-analytics.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
+
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  const firebaseConfig = {
+    apiKey: "AIzaSyBpC_psc6VplNWVVFCl8vuXl8BbsaBtvJo",
+    authDomain: "migestropro.firebaseapp.com",
+    projectId: "migestropro",
+    storageBucket: "migestropro.firebasestorage.app",
+    messagingSenderId: "384203803002",
+    appId: "1:384203803002:web:b946e86dca3c02cddb2ec3",
+    measurementId: "G-1E4TGFLFW5"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
+</body>
+</html>
