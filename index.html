@@ -15,222 +15,300 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
   <style>
-    :root{
-      --bg:#0f1224; --card:rgba(255,255,255,0.08); --card-border:rgba(255,255,255,0.15);
-      --text:#e9ecf1; --muted:#aab3c2; --primary:#5ac8fa; --accent:#7b61ff;
-      --success:#41d37e; --danger:#ff4d4f; --shadow:0 10px 30px rgba(0,0,0,.35); --radius:16px;
-    }
-    *{ box-sizing:border-box; }
-    html,body{ height:100%; }
-    body{
-      margin:0; font-family:'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      background: radial-gradient(1200px 800px at 10% -10%, #1a1f45 0%, transparent 40%),
-                  radial-gradient(900px 700px at 110% 10%, #2b2258 0%, transparent 45%),
-                  var(--bg); color:var(--text);
-    }
+  :root{
+    --bg:#0f1224; --card:rgba(255,255,255,0.08); --card-border:rgba(255,255,255,0.15);
+    --text:#e9ecf1; --muted:#aab3c2; --primary:#5ac8fa; --accent:#7b61ff;
+    --success:#41d37e; --danger:#ff4d4f; --shadow:0 10px 30px rgba(0,0,0,.35); --radius:16px;
+  }
+  *{ box-sizing:border-box; }
+  html,body{ height:100%; }
+  body{
+    margin:0; font-family:'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    background: radial-gradient(1200px 800px at 10% -10%, #1a1f45 0%, transparent 40%),
+               radial-gradient(900px 700px at 110% 10%, #2b2258 0%, transparent 45%),
+               var(--bg); color:var(--text);
+  }
 
-    /* Header + nav */
-    header{
-      position:sticky; top:0; z-index:20; backdrop-filter: blur(10px);
-      background: linear-gradient(90deg, rgba(90,200,250,.25), rgba(123,97,255,.25));
-      border-bottom: 1px solid var(--card-border);
-    }
-    .bar{
-      display:flex; align-items:center; justify-content:space-between;
-      padding: 14px 16px; max-width: 1200px; margin: 0 auto;
-    }
-    .logo{
-      display:flex; align-items:center; gap:12px; font-weight:700;
-    }
-    .logo img{ width:36px; height:36px; border-radius:10px; box-shadow:var(--shadow); }
+  /* Header + nav */
+  header{
+    position:sticky; top:0; z-index:20; backdrop-filter: blur(10px);
+    background: linear-gradient(90deg, rgba(90,200,250,.25), rgba(123,97,255,.25));
+    border-bottom: 1px solid var(--card-border);
+  }
+  .bar{
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 14px 16px; max-width: 1200px; margin: 0 auto;
+  }
+  .logo{
+    display:flex; align-items:center; gap:12px; font-weight:700; cursor:pointer;
+  }
+  .logo img{ width:36px; height:36px; border-radius:10px; box-shadow:var(--shadow); }
 
-    /* Menú desktop */
-    nav{
-      display:flex; gap:12px; align-items:center;
-    }
-    nav a{
-      color: var(--text); text-decoration:none; font-weight:600; font-size:14px;
-      display:flex; align-items:center; gap:8px; padding:10px 12px; border-radius:12px;
-      border:1px solid transparent; transition: all .2s ease;
-    }
-    nav a:hover{
-      background: rgba(255,255,255,0.06);
-      border-color: var(--card-border);
-      transform: translateY(-1px);
-    }
+  /* Menú desktop */
+  nav{ display:flex; gap:12px; align-items:center; }
+  nav a{
+    color: var(--text); text-decoration:none; font-weight:600; font-size:14px;
+    display:flex; align-items:center; gap:8px; padding:10px 12px; border-radius:12px;
+    border:1px solid transparent; transition: all .2s ease;
+  }
+  nav a:hover{
+    background: rgba(255,255,255,0.06);
+    border-color: var(--card-border);
+    transform: translateY(-1px);
+  }
 
-    /* Menú hamburguesa (móvil) */
-    .hamburger{
-      display:none; align-items:center; gap:8px;
-      color:#fff; background:transparent; border:1px solid var(--card-border);
-      padding:8px 10px; border-radius:10px; cursor:pointer;
-    }
-    .hamburger i{ font-size:18px; }
-    .mobile-nav{
-      display:none; flex-direction:column; gap:8px; padding:10px 16px;
-      border-top:1px solid var(--card-border); background: rgba(255,255,255,0.05);
-    }
-    .mobile-nav a{
-      padding:10px; border-radius:10px; color:#fff; text-decoration:none; font-weight:600;
-      display:flex; align-items:center; gap:8px; border:1px solid transparent;
-    }
-    .mobile-nav a:hover{ border-color: var(--card-border); }
+  /* Menú hamburguesa (móvil) */
+  .hamburger{
+    display:none; align-items:center; gap:8px;
+    color:#fff; background:transparent; border:1px solid var(--card-border);
+    padding:8px 10px; border-radius:10px; cursor:pointer;
+  }
+  .hamburger i{ font-size:18px; }
+  .mobile-nav{
+    display:none; flex-direction:column; gap:8px; padding:10px 16px;
+    border-top:1px solid var(--card-border); background: rgba(255,255,255,0.05);
+  }
+  .mobile-nav a{
+    padding:10px; border-radius:10px; color:#fff; text-decoration:none; font-weight:600;
+    display:flex; align-items:center; gap:8px; border:1px solid transparent;
+  }
+  .mobile-nav a:hover{ border-color: var(--card-border); }
+  main{ max-width:1200px; margin: 26px auto; padding: 0 16px 40px; }
 
-    main{ max-width:1200px; margin: 26px auto; padding: 0 16px 40px; }
+  /* Secciones */
+  section{
+    display:none; background: var(--card); border:1px solid var(--card-border);
+    border-radius: var(--radius); box-shadow: var(--shadow); padding: 26px; overflow:hidden;
+  }
+  section.active{ display:block; animation: fadeIn .35s ease; }
+  @keyframes fadeIn{ from{opacity:0; transform: translateY(8px);} to{opacity:1; transform:none;} }
 
-    /* Secciones */
-    section{
-      display:none; background: var(--card); border:1px solid var(--card-border);
-      border-radius: var(--radius); box-shadow: var(--shadow); padding: 26px; overflow:hidden;
-    }
-    section.active{ display:block; animation: fadeIn .35s ease; }
-    @keyframes fadeIn{ from{opacity:0; transform: translateY(8px);} to{opacity:1; transform:none;} }
+  /* Inicio */
+  #inicio{ padding: 34px 26px; background: linear-gradient(180deg, rgba(123,97,255,.18), rgba(90,200,250,.10)); }
+  #inicio .hero{ display: grid; grid-template-columns: 1.2fr .8fr; gap: 24px; align-items: center; }
+  .cards{ display:grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap:18px; margin-top:8px; }
+  .card{
+    position:relative; overflow:hidden; border-radius: 18px; padding: 18px;
+    background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+    border:1px solid var(--card-border); cursor:pointer; transition: transform .2s, box-shadow .2s, border-color .2s;
+  }
+  .card:before{
+    content:""; position:absolute; inset:-1px; border-radius:inherit;
+    background: conic-gradient(from 180deg, rgba(122,99,255,.35), rgba(90,200,250,.35), rgba(122,99,255,.35));
+    filter: blur(20px); opacity:.35; z-index:0;
+  }
+  .card:hover{
+    transform: translateY(-3px); border-color: rgba(123,97,255,.55);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.35);
+  }
+  .card .icon{
+    width:42px; height:42px; display:grid; place-items:center; border-radius:12px; color:#fff;
+    background: linear-gradient(135deg, rgba(123,97,255,.25), rgba(90,200,250,.25));
+    border:1px solid var(--card-border);
+  }
+  .card h4{ margin:10px 0 4px; }
+  .card p{ margin:0; color: var(--muted); font-size: 13px; }
 
-    /* Inicio */
-    #inicio{ padding: 34px 26px; background: linear-gradient(180deg, rgba(123,97,255,.18), rgba(90,200,250,.10)); }
-    #inicio .hero{ display: grid; grid-template-columns: 1.2fr .8fr; gap: 24px; align-items: center; }
-    .cards{ display:grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap:18px; margin-top:8px; }
-    .card{
-      position:relative; overflow:hidden; border-radius: 18px; padding: 18px;
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-      border:1px solid var(--card-border); cursor:pointer; transition: transform .2s, box-shadow .2s, border-color .2s;
-    }
-    .card:before{
-      content:""; position:absolute; inset:-1px; border-radius:inherit;
-      background: conic-gradient(from 180deg, rgba(122,99,255,.35), rgba(90,200,250,.35), rgba(122,99,255,.35));
-      filter: blur(20px); opacity:.35; z-index:0;
-    }
-    .card:hover{
-      transform: translateY(-3px); border-color: rgba(123,97,255,.55);
-      box-shadow: 0 15px 40px rgba(0,0,0,0.35);
-    }
-    .card .icon{
-      width:42px; height:42px; display:grid; place-items:center; border-radius:12px; color:#fff;
-      background: linear-gradient(135deg, rgba(123,97,255,.25), rgba(90,200,250,.25));
-      border:1px solid var(--card-border);
-    }
-    .card h4{ margin:10px 0 4px; }
-    .card p{ margin:0; color: var(--muted); font-size: 13px; }
+  /* Nuevo gasto */
+  #nuevo-gasto .form{ display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:14px; margin-top: 12px; }
+  label{ font-weight:600; font-size: 13px; color: var(--muted); margin-bottom:6px; display:block; }
+  .field{
+    background: rgba(255,255,255,0.05); border:1px solid var(--card-border); border-radius:12px;
+    padding: 10px 12px; display:flex; align-items:center; gap:10px;
+  }
+  .field i{ color: var(--accent); }
+  .field input, .field select{
+    background: transparent; border:none; outline:none; color: var(--text); width:100%;
+    font-size: 14px;
+  }
+  .actions{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-top:12px; }
+  .btn{
+    display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border-radius:12px;
+    border:1px solid transparent; cursor:pointer; font-weight:700; transition: transform .15s ease, background .2s ease, border-color .2s ease;
+  }
+  .btn-primary{ background: linear-gradient(90deg, var(--primary), var(--accent)); color:#081326; }
+  .btn-primary:hover{ transform: translateY(-1px); }
+  .btn-ghost{ background: transparent; color: var(--text); border-color: var(--card-border); }
+  .btn-ghost:hover{ background: rgba(255,255,255,0.06); }
+  .hint{ color: var(--muted); font-size: 12px; }
 
-    /* Nuevo gasto */
-    #nuevo-gasto .form{ display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:14px; margin-top: 12px; }
-    label{ font-weight:600; font-size: 13px; color: var(--muted); margin-bottom:6px; display:block; }
-    .field{
-      background: rgba(255,255,255,0.05); border:1px solid var(--card-border); border-radius:12px;
-      padding: 10px 12px; display:flex; align-items:center; gap:10px;
-    }
-    .field i{ color: var(--accent); }
-    .field input, .field select{
-      background: transparent; border:none; outline:none; color: var(--text); width:100%;
-      font-size: 14px;
-    }
-    .actions{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-top:12px; }
-    .btn{
-      display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border-radius:12px;
-      border:1px solid transparent; cursor:pointer; font-weight:700; transition: transform .15s ease, background .2s ease, border-color .2s ease;
-    }
-    .btn-primary{ background: linear-gradient(90deg, var(--primary), var(--accent)); color:#081326; }
-    .btn-primary:hover{ transform: translateY(-1px); }
-    .btn-ghost{ background: transparent; color: var(--text); border-color: var(--card-border); }
-    .btn-ghost:hover{ background: rgba(255,255,255,0.06); }
-    .hint{ color: var(--muted); font-size: 12px; }
+  /* Mensajes */
+  .alert-ok{
+    margin-top:8px; background: rgba(65,211,126,0.12); border:1px solid rgba(65,211,126,0.35);
+    color:#b1f2ce; padding:8px 10px; border-radius:10px;
+  }
+  .alert-error{
+    margin-top:8px; background: rgba(255,77,79,0.12); border:1px solid rgba(255,77,79,0.35);
+    color:#ffc9c9; padding:8px 10px; border-radius:10px;
+  }
 
-    /* Tabla */
-    table{ width:100%; border-collapse: collapse; margin-top:16px; }
-    th, td{ border-bottom: 1px solid rgba(255,255,255,0.08); padding: 10px; text-align:left; }
-    th{ color: var(--muted); font-weight:600; }
-    .btn-delete{
-      display:inline-flex; align-items:center; justify-content:center;
-      width:34px; height:28px; border-radius:10px;
-      background: var(--danger); color:#fff; border:none; cursor:pointer;
-      box-shadow:0 6px 12px rgba(255,77,79,.35); transition: transform .15s ease, filter .15s ease;
-    }
-    .btn-delete:hover{ transform:translateY(-1px); filter:brightness(1.05); }
-    .btn-delete i{ font-size:14px; }
+  /* Tabla */
+  table{ width:100%; border-collapse: collapse; margin-top:16px; }
+  th, td{ border-bottom: 1px solid rgba(255,255,255,0.08); padding: 10px; text-align:left; }
+  th{ color: var(--muted); font-weight:600; }
+  .btn-delete{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:34px; height:28px; border-radius:10px;
+    background: var(--danger); color:#fff; border:none; cursor:pointer;
+    box-shadow:0 6px 12px rgba(255,77,79,.35); transition: transform .15s ease, filter .15s ease;
+  }
+  .btn-delete:hover{ transform:translateY(-1px); filter:brightness(1.05); }
+  .btn-delete i{ font-size:14px; }
 
-    /* Panel de filtros + gráficos */
-    .filters{
-      display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-top: 8px;
-    }
-    .filters .check{ display:flex; align-items:center; gap:8px; color: var(--muted); font-size: 13px; }
-    .charts{
-      margin-top:18px;
-      display:grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap:16px;
-    }
-    .chart-card{
-      background: rgba(255,255,255,0.06); border:1px solid var(--card-border);
-      border-radius: 14px; padding: 14px; min-height: 240px; height: 300px;
-      display:flex; flex-direction:column;
-    }
-    .chart-card h5{ margin:0 0 8px; font-size: 14px; color:#dbe2f4; }
-    .chart-card canvas{ flex:1 1 auto; }
+  /* Panel de filtros + gráficos */
+  .filters{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-top: 8px; }
+  .filters .check{ display:flex; align-items:center; gap:8px; color: var(--muted); font-size: 13px; }
+  .charts{ margin-top:18px; display:grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap:16px; }
+  .chart-card{
+    background: rgba(255,255,255,0.06); border:1px solid var(--card-border);
+    border-radius: 14px; padding: 14px; min-height: 240px; height: 300px; display:flex; flex-direction:column;
+  }
+  .chart-card h5{ margin:0 0 8px; font-size: 14px; color:#dbe2f4; }
+  .chart-card canvas{ flex:1 1 auto; }
 
-    /* Select: contraste y caret */
-    .field select {
-      color: var(--text); background-color: transparent;
-      border: none; outline: none; appearance: none; padding-right: 28px;
-      background-image: linear-gradient(45deg, transparent 50%, #cfd6e8 50%),
-                        linear-gradient(135deg, #cfd6e8 50%, transparent 50%);
-      background-position: calc(100% - 16px) calc(50% - 3px), calc(100% - 10px) calc(50% - 3px);
-      background-size: 6px 6px, 6px 6px; background-repeat: no-repeat;
-    }
-    .field select option { color:#0f1224; }
+  /* Select */
+  .field select {
+    color: var(--text); background-color: transparent;
+    border: none; outline: none; appearance: none; padding-right: 28px;
+    background-image: linear-gradient(45deg, transparent 50%, #cfd6e8 50%),
+                      linear-gradient(135deg, #cfd6e8 50%, transparent 50%);
+    background-position: calc(100% - 16px) calc(50% - 3px), calc(100% - 10px) calc(50% - 3px);
+    background-size: 6px 6px, 6px 6px; background-repeat: no-repeat;
+  }
+  .field select option { color:#0f1224; }
 
-    /* Input number: sin steppers */
-    .field input[type="number"]::-webkit-outer-spin-button,
-    .field input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-    .field input[type="number"] { -moz-appearance: textfield; }
+  /* Input number */
+  .field input[type="number"]::-webkit-outer-spin-button,
+  .field input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+  .field input[type="number"] { -moz-appearance: textfield; }
 
-    /* Icono de categoría — compacto */
-    .cat-icon { width: 20px; height: 20px; display:grid; place-items:center; border-radius:6px; margin-left: 6px; color:#fff; border:1px solid var(--card-border); background: linear-gradient(135deg, rgba(123,97,255,.25), rgba(90,200,250,.25)); cursor: help; }
-    .cat-comida     { background: linear-gradient(135deg, #ff7b7b55, #ffaeae55); }
-    .cat-transporte { background: linear-gradient(135deg, #5ac8fa55, #2ea8e955); }
-    .cat-ocio       { background: linear-gradient(135deg, #7b61ff55, #a48cff55); }
-    .cat-otros      { background: linear-gradient(135deg, #ffc14d55, #ffd78a55); }
-    .cat-icon i{ font-size: 12px; }
+  /* Icono de categoría */
+  .cat-icon { width: 20px; height: 20px; display:grid; place-items:center; border-radius:6px; margin-left: 6px; color:#fff; border:1px solid var(--card-border); background: linear-gradient(135deg, rgba(123,97,255,.25), rgba(90,200,250,.25)); cursor: help; }
+  .cat-comida { background: linear-gradient(135deg, #ff7b7b55, #ffaeae55); }
+  .cat-transporte { background: linear-gradient(135deg, #5ac8fa55, #2ea8e955); }
+  .cat-ocio { background: linear-gradient(135deg, #7b61ff55, #a48cff55); }
+  .cat-otros { background: linear-gradient(135deg, #ffc14d55, #ffd78a55); }
+  .cat-icon i{ font-size: 12px; }
 
-    /* === Responsive === */
-    @media (max-width: 1024px) {
-      .chart-card{ height: 280px; }
-    }
-    @media (max-width: 768px) {
-      .bar{ flex-direction: column; gap: 10px; }
-      /* Oculta nav desktop y muestra hamburguesa */
-      nav{ display:none; }
-      .hamburger{ display:flex; }
+  /* ===== CALCULADORA ===== */
+  #calculadora .calc-card{
+    background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+    border:1px solid var(--card-border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 18px; display: grid; gap: 12px; max-width: 420px; margin: 8px auto;
+  }
+  #calculadora .calc-header{ display:flex; align-items:center; gap:10px; }
+  #calculadora .calc-header .icon{
+    width:40px; height:40px; display:grid; place-items:center; border-radius:12px; color:#fff;
+    background: linear-gradient(135deg, rgba(123,97,255,.25), rgba(90,200,250,.25));
+    border:1px solid var(--card-border);
+  }
+  .calc-display{
+    background: rgba(255,255,255,0.06);
+    border:1px solid var(--card-border);
+    border-radius: 12px; padding: 12px 14px;
+    font-size: 20px; font-weight: 700; color: var(--text); text-align: right; letter-spacing: 0.5px;
+  }
+  .calc-buttons{ display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+  .calc-btn{
+    background: rgba(255,255,255,0.06); border:1px solid var(--card-border);
+    color: var(--text); border-radius: 12px; padding: 12px; font-weight:700; cursor:pointer;
+    transition: transform .15s ease, background .2s ease, border-color .2s ease;
+  }
+  .calc-btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15); }
+  .calc-btn.op{ color: #0b1022; background: linear-gradient(90deg, var(--primary), var(--accent)); border:1px solid transparent; }
+  .calc-btn.equal{ background: linear-gradient(90deg, var(--accent), var(--primary)); color:#081326; box-shadow: 0 10px 20px rgba(123,97,255,.25); }
+  .calc-btn.clear{ background: var(--danger); color:#fff; box-shadow:0 6px 12px rgba(255,77,79,.35); }
 
-      #inicio .hero{ grid-template-columns: 1fr; text-align:center; }
-      .cards{ grid-template-columns: 1fr; }
-      .form{ grid-template-columns: 1fr; }
-      .chart-card{ height: 260px; }
-      table{ font-size:13px; }
-      th, td{ padding: 8px; }
-      .btn{ font-size: 13px; padding: 8px 12px; }
-      nav a{ padding:8px 10px; }
-    }
-    @media (max-width: 480px) {
-      .chart-card{ height: 240px; }
-      h2, h3{ font-size: 18px; }
-      .btn{ font-size: 12px; padding: 8px 10px; }
-      .logo img{ width:32px; height:32px; }
-    }
+  /* ===== METAS ===== */
+  #metas h3{ margin-top:0; }
+  .metas-grid{ display:grid; grid-template-columns: 1.1fr .9fr; gap:18px; }
+  .meta-create, .meta-list{
+    background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+    border:1px solid var(--card-border); border-radius: 16px; padding:16px;
+  }
+  .template-cards{
+    display:grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap:12px; margin-bottom:12px;
+  }
+  .template-card{
+    position:relative; overflow:hidden; border-radius: 14px; padding: 14px; cursor:pointer;
+    background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+    border:1px solid var(--card-border); transition: transform .2s, border-color .2s, box-shadow .2s;
+    display:flex; gap:10px; align-items:flex-start;
+  }
+  .template-card:hover{ transform: translateY(-2px); border-color: rgba(123,97,255,.55); box-shadow: 0 10px 24px rgba(0,0,0,0.35); }
+  .template-card .icon{ width:36px; height:36px; display:grid; place-items:center; border-radius:10px; color:#fff; background: linear-gradient(135deg, rgba(123,97,255,.25), rgba(90,200,250,.25)); border:1px solid var(--card-border); flex:0 0 auto; }
+  .template-card h5{ margin:0 0 4px; }
+  .meta-form-grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:12px; }
+  .meta-actions{ display:flex; gap:10px; align-items:center; margin-top:10px; }
+
+  /* Lista de metas */
+  #metasList{ display:flex; flex-direction:column; gap:12px; }
+  .meta-item{
+    background: rgba(255,255,255,0.05); border:1px solid var(--card-border); border-radius:12px; padding:12px; display:grid; gap:8px;
+  }
+  .meta-top{ display:flex; justify-content:space-between; gap:10px; align-items:center; }
+  .meta-title{ font-weight:700; }
+  .meta-tags{ display:flex; gap:8px; flex-wrap:wrap; }
+  .tag{
+    font-size:12px; padding:4px 8px; border-radius:999px; border:1px solid var(--card-border); color:#cfd6e8; background: rgba(255,255,255,0.04);
+  }
+  .status{
+    font-size:12px; padding:4px 8px; border-radius:999px; font-weight:700;
+  }
+  .status.ok{ background: rgba(65,211,126,.18); color:#b1f2ce; border:1px solid rgba(65,211,126,.35); }
+  .status.warn{ background: rgba(255,209,102,.18); color:#ffe6a8; border:1px solid rgba(255,209,102,.35); }
+  .status.err{ background: rgba(255,77,79,.18); color:#ffc9c9; border:1px solid rgba(255,77,79,.35); }
+  .progress{
+    height:10px; border-radius:999px; background: rgba(255,255,255,0.06); border:1px solid var(--card-border); overflow:hidden;
+  }
+  .progress > span{
+    display:block; height:100%; width:0%;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+  }
+  .meta-footer{ display:flex; justify-content:space-between; align-items:center; gap:10px; font-size:12px; color:#cfd6e8; }
+  .meta-delete{
+    background: var(--danger); color:#fff; border:none; border-radius:8px; padding:6px 8px; cursor:pointer;
+    display:inline-flex; align-items:center; gap:6px; box-shadow:0 6px 12px rgba(255,77,79,.35);
+  }
+
+  /* Responsive */
+  @media (max-width: 1024px) { .chart-card{ height: 280px; } }
+  @media (max-width: 768px) {
+    .bar{ flex-direction: column; gap: 10px; }
+    nav{ display:none; }
+    .hamburger{ display:flex; }
+    #inicio .hero{ grid-template-columns: 1fr; text-align:center; }
+    .cards{ grid-template-columns: 1fr; }
+    .form{ grid-template-columns: 1fr; }
+    .chart-card{ height: 260px; }
+    table{ font-size:13px; }
+    th, td{ padding: 8px; }
+    .btn{ font-size: 13px; padding: 8px 12px; }
+    nav a{ padding:8px 10px; }
+    .metas-grid{ grid-template-columns: 1fr; }
+  }
+  @media (max-width: 480px) {
+    .chart-card{ height: 240px; }
+    h2, h3{ font-size: 18px; }
+    .btn{ font-size: 12px; padding: 8px 10px; }
+    .logo img{ width:32px; height:32px; }
+  }
   </style>
 </head>
-
 <body>
   <header>
     <div class="bar">
-      <div class="logo">
+      <div class="logo" data-section="inicio" title="Inicio">
         <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Logo MiGestor+">
         <span>MiGestor+ Pro</span>
       </div>
 
-      <!-- Botón menú hamburguesa (visible en móviles) -->
       <button id="hamburgerBtn" class="hamburger" aria-label="Abrir menú">
         <i class="fa-solid fa-bars"></i> Menú
       </button>
 
-      <!-- Menú desktop (visible en >= 769px por CSS) -->
       <nav id="desktopNav">
         <a data-section="inicio"><i class="fas fa-home"></i> Inicio</a>
         <a data-section="nuevo-gasto"><i class="fas fa-plus-circle"></i> Nuevo gasto</a>
@@ -240,7 +318,6 @@
       </nav>
     </div>
 
-    <!-- Menú móvil desplegable -->
     <div id="mobileNav" class="mobile-nav" aria-hidden="true">
       <a data-section="inicio"><i class="fas fa-home"></i> Inicio</a>
       <a data-section="nuevo-gasto"><i class="fas fa-plus-circle"></i> Nuevo gasto</a>
@@ -264,7 +341,9 @@
             <div class="card" data-section="metas"><div class="icon"><i class="fa-solid fa-bullseye"></i></div><h4>Metas</h4><p>Define objetivos y progreso.</p></div>
           </div>
         </div>
-        <div><img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Logo decorativo" style="width:100%; max-width:220px; border-radius:12px; opacity:.9;"></div>
+        <div>
+          <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Logo decorativo" style="width:100%; max-width:220px; border-radius:12px; opacity:.9;">
+        </div>
       </div>
     </section>
 
@@ -333,13 +412,11 @@
         <button id="btn-reset" class="btn btn-ghost"><i class="fa-solid fa-eraser"></i> Borrar filtros</button>
         <label class="check"><input type="checkbox" id="chkGrafConFiltros"><span>Aplicar filtros a los gráficos</span></label>
       </div>
-
       <table>
         <thead><tr><th>Descripción</th><th>Monto (€)</th><th>Categoría</th><th>Fecha</th><th>Acciones</th></tr></thead>
         <tbody id="tablaGastos"></tbody>
       </table>
       <p id="total" style="margin-top:10px; font-weight:700;"></p>
-
       <div class="charts">
         <div class="chart-card">
           <h5><i class="fa-solid fa-chart-pie"></i> Por categoría</h5>
@@ -358,22 +435,136 @@
 
     <!-- CALCULADORA -->
     <section id="calculadora">
-      <h3 style="margin-top:0;">Calculadora</h3>
-      <input type="text" class="calc-display" id="calc-display" readonly>
-      <div class="calc-buttons">
-        <button>7</button><button>8</button><button>9</button><button>/</button>
-        <button>4</button><button>5</button><button>6</button><button>*</button>
-        <button>1</button><button>2</button><button>3</button><button>-</button>
-        <button>0</button><button>.</button><button>=</button><button>+</button>
-        <button>C</button>
+      <div class="calc-card">
+        <div class="calc-header">
+          <div class="icon"><i class="fa-solid fa-calculator"></i></div>
+          <h3 style="margin:0;">Calculadora</h3>
+        </div>
+
+        <input type="text" class="calc-display" id="calc-display" readonly aria-label="Pantalla calculadora">
+
+        <div class="calc-buttons" aria-label="Teclas calculadora">
+          <button class="calc-btn" aria-label="Siete">7</button>
+          <button class="calc-btn" aria-label="Ocho">8</button>
+          <button class="calc-btn" aria-label="Nueve">9</button>
+          <button class="calc-btn op" aria-label="Dividir">/</button>
+          <button class="calc-btn" aria-label="Cuatro">4</button>
+          <button class="calc-btn" aria-label="Cinco">5</button>
+          <button class="calc-btn" aria-label="Seis">6</button>
+          <button class="calc-btn op" aria-label="Multiplicar">*</button>
+          <button class="calc-btn" aria-label="Uno">1</button>
+          <button class="calc-btn" aria-label="Dos">2</button>
+          <button class="calc-btn" aria-label="Tres">3</button>
+          <button class="calc-btn op" aria-label="Restar">-</button>
+          <button class="calc-btn" aria-label="Cero">0</button>
+          <button class="calc-btn" aria-label="Punto decimal">.</button>
+          <button class="calc-btn equal" aria-label="Igual">=</button>
+          <button class="calc-btn op" aria-label="Sumar">+</button>
+          <button class="calc-btn clear" aria-label="Limpiar">C</button>
+        </div>
       </div>
     </section>
 
     <!-- METAS -->
     <section id="metas">
       <h3 style="margin-top:0;">Metas y objetivos</h3>
-      <p>Define tus metas financieras y sigue tu progreso.</p>
-      <button class="btn btn-ghost"><i class="fa-solid fa-plus"></i> Añadir meta</button>
+
+      <div class="metas-grid">
+        <!-- Crear meta -->
+        <div class="meta-create">
+          <h4 style="margin:0 0 10px 0;">Crear meta</h4>
+
+          <!-- Plantillas rápidas -->
+          <div class="template-cards">
+            <div class="template-card" data-template="luz">
+              <div class="icon"><i class="fa-solid fa-bolt"></i></div>
+              <div>
+                <h5>Ahorrar en la factura de luz</h5>
+                <p class="hint" style="margin:0;">Límite mensual con etiqueta “luz”.</p>
+              </div>
+            </div>
+
+            <div class="template-card" data-template="tope-mensual">
+              <div class="icon"><i class="fa-solid fa-wallet"></i></div>
+              <div>
+                <h5>No gastar más de X € al mes</h5>
+                <p class="hint" style="margin:0;">Límite mensual total.</p>
+              </div>
+            </div>
+
+            <div class="template-card" data-template="reducir-ocio">
+              <div class="icon"><i class="fa-solid fa-masks-theater"></i></div>
+              <div>
+                <h5>Reducir Ocio un 20%</h5>
+                <p class="hint" style="margin:0;">Comparado con el mes pasado.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Formulario -->
+          <div class="meta-form-grid" id="metaForm">
+            <div>
+              <label for="metaTitulo">Título</label>
+              <div class="field"><i class="fa-regular fa-flag"></i><input id="metaTitulo" type="text" placeholder="Ej: Gasto mensual máximo"></div>
+            </div>
+            <div>
+              <label for="metaTipo">Tipo</label>
+              <div class="field"><i class="fa-solid fa-sliders"></i>
+                <select id="metaTipo">
+                  <option value="limite">Límite de gasto (€)</option>
+                  <option value="reduccion">Reducción (%) vs mes anterior</option>
+                </select>
+              </div>
+            </div>
+            <div>
+              <label for="metaPeriodo">Periodo</label>
+              <div class="field"><i class="fa-regular fa-calendar"></i>
+                <select id="metaPeriodo">
+                  <option value="mensual">Mensual (mes en curso)</option>
+                  <option value="3m">3 meses (incluye mes actual)</option>
+                </select>
+              </div>
+            </div>
+            <div id="wrapObjetivo">
+              <label for="metaObjetivo">Objetivo (€)</label>
+              <div class="field"><i class="fa-solid fa-euro-sign"></i><input id="metaObjetivo" type="number" min="0" step="0.01" placeholder="Ej: 200.00"></div>
+            </div>
+            <div id="wrapPorcentaje" style="display:none;">
+              <label for="metaPorcentaje">Porcentaje (%)</label>
+              <div class="field"><i class="fa-solid fa-percent"></i><input id="metaPorcentaje" type="number" min="1" max="100" step="1" placeholder="Ej: 20"></div>
+            </div>
+            <div>
+              <label for="metaCategoria">Categoría (opcional)</label>
+              <div class="field"><i class="fa-solid fa-tags"></i>
+                <select id="metaCategoria">
+                  <option value="">(Todas)</option>
+                  <option value="Comida">Comida</option>
+                  <option value="Transporte">Transporte</option>
+                  <option value="Ocio">Ocio</option>
+                  <option value="Otros">Otros</option>
+                </select>
+              </div>
+            </div>
+            <div>
+              <label for="metaEtiqueta">Etiqueta (opcional)</label>
+              <div class="field"><i class="fa-solid fa-hashtag"></i><input id="metaEtiqueta" type="text" placeholder='Ej: "luz" buscará en la descripción'></div>
+            </div>
+          </div>
+
+          <div class="meta-actions">
+            <button id="btnGuardarMeta" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Guardar meta</button>
+            <span class="hint">Las metas se guardan en tu navegador.</span>
+          </div>
+
+          <div id="msg-meta"></div>
+        </div>
+
+        <!-- Lista metas -->
+        <div class="meta-list">
+          <h4 style="margin:0 0 10px 0;">Mis metas</h4>
+          <div id="metasList"></div>
+        </div>
+      </div>
     </section>
   </main>
 
@@ -381,267 +572,487 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
   <script>
-    /* ========= Menú hamburguesa ========= */
-    const hamburgerBtn = document.getElementById('hamburgerBtn');
-    const mobileNav    = document.getElementById('mobileNav');
-    hamburgerBtn.addEventListener('click', ()=>{
-      const visible = mobileNav.style.display === 'flex';
-      mobileNav.style.display = visible ? 'none' : 'flex';
-      mobileNav.setAttribute('aria-hidden', visible ? 'true' : 'false');
-    });
+  /* ========= Menú hamburguesa ========= */
+  const hamburgerBtn = document.getElementById('hamburgerBtn');
+  const mobileNav = document.getElementById('mobileNav');
+  hamburgerBtn.addEventListener('click', () => {
+    const visible = mobileNav.style.display === 'flex';
+    mobileNav.style.display = visible ? 'none' : 'flex';
+    mobileNav.setAttribute('aria-hidden', visible ? 'true' : 'false');
+  });
 
-    /* ========= Navegación ========= */
-    const links = document.querySelectorAll('nav a, .mobile-nav a');
-    const cards = document.querySelectorAll('.card');
-    const sections = document.querySelectorAll('main section');
-    function showSection(sectionId){
-      sections.forEach(sec=>sec.classList.remove('active'));
-      const target = document.getElementById(sectionId);
-      if(target) target.classList.add('active');
-      // en móvil, oculta el menú al navegar
-      if (window.innerWidth <= 768) { mobileNav.style.display='none'; mobileNav.setAttribute('aria-hidden','true'); }
-      window.scrollTo({top:0, behavior:'smooth'});
+  /* ========= Navegación (delegación robusta) ========= */
+  const sections = document.querySelectorAll('main section');
+  function showSection(sectionId){
+    sections.forEach(sec=>sec.classList.remove('active'));
+    const target = document.getElementById(sectionId);
+    if(target) target.classList.add('active');
+    if (window.innerWidth <= 768) { mobileNav.style.display='none'; mobileNav.setAttribute('aria-hidden','true'); }
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+  // Un solo listener para cualquier elemento con data-section (nav, móvil, cards, logo)
+  document.addEventListener('click', (e)=>{
+    const el = e.target.closest('[data-section]');
+    if (!el) return;
+    e.preventDefault();
+    const id = el.getAttribute('data-section');
+    if (id) showSection(id);
+  });
+
+  /* ========= Storage y normalización de gastos ========= */
+  const LS_KEY='gastos';
+  const isISODate = s => typeof s === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(s);
+  const toNumber = x => Number.isFinite(Number(x)) ? Number(Number(x).toFixed(2)) : 0;
+
+  function normalizeItem(x){
+    if(!x || typeof x!=='object') return null;
+    const descripcion = String(x.descripcion ?? '').trim();
+    const monto = toNumber(x.monto);
+    const categoria = String(x.categoria ?? 'Otros');
+    let fecha = null;
+    if (isISODate(x.fecha)) fecha = x.fecha;
+    else if (typeof x.fecha === 'string'){
+      const m = x.fecha.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+      if (m) fecha = `${m[3]}-${m[2]}-${m[1]}`;
     }
-    links.forEach(link=>link.addEventListener('click',()=> showSection(link.dataset.section)));
-    cards.forEach(card=>card.addEventListener('click',()=> showSection(card.dataset.section)));
-
-    /* ========= Storage y normalización ========= */
-    const LS_KEY='gastos';
-    const isISODate = s => typeof s === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(s);
-    const toNumber  = x => Number.isFinite(Number(x)) ? Number(Number(x).toFixed(2)) : 0;
-
-    function normalizeItem(x){
-      if(!x || typeof x!=='object') return null;
-      const descripcion = String(x.descripcion || '').trim();
-      const monto       = toNumber(x.monto);
-      const categoria   = String(x.categoria || 'Otros');
-      let fecha         = null;
-      if (isISODate(x.fecha)) fecha = x.fecha;
-      else if (typeof x.fecha === 'string'){
-        const m = x.fecha.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
-        if (m) fecha = `${m[3]}-${m[2]}-${m[1]}`;
-      }
-      const creadoEn = typeof x.creadoEn === 'string' ? x.creadoEn : new Date().toISOString();
-      const id       = x.id || (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()+Math.random()));
-      if(!descripcion || !monto || !fecha) return null;
-      return {id, descripcion, monto, categoria, fecha, creadoEn};
+    const creadoEn = typeof x.creadoEn === 'string' ? x.creadoEn : new Date().toISOString();
+    const id = x.id ?? (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()+Math.random()));
+    if(!descripcion || !monto || !fecha) return null;
+    return {id, descripcion, monto, categoria, fecha, creadoEn};
+  }
+  function leerGastos(){
+    try{
+      const raw = JSON.parse(localStorage.getItem(LS_KEY) ?? '[]');
+      const norm = (Array.isArray(raw) ? raw : []).map(normalizeItem).filter(Boolean);
+      localStorage.setItem(LS_KEY, JSON.stringify(norm));
+      return norm;
+    }catch(e){
+      console.warn('LocalStorage inválido. Reset de "gastos".', e);
+      localStorage.removeItem(LS_KEY);
+      return [];
     }
+  }
+  function guardarGastos(arr){ localStorage.setItem(LS_KEY, JSON.stringify(arr)); }
+  function agregarGasto(g){ const arr=leerGastos(); arr.push(g); guardarGastos(arr); }
+  function eliminarGasto(id){ const arr=leerGastos().filter(x=>x?.id!==id); guardarGastos(arr); }
 
-    function leerGastos(){
-      try{
-        const raw = JSON.parse(localStorage.getItem(LS_KEY) || '[]');
-        const norm = (Array.isArray(raw) ? raw : []).map(normalizeItem).filter(Boolean);
-        localStorage.setItem(LS_KEY, JSON.stringify(norm));
-        return norm;
-      }catch(e){
-        console.warn('LocalStorage inválido. Reset de "gastos".', e);
-        localStorage.removeItem(LS_KEY);
-        return [];
-      }
-    }
-    function guardarGastos(arr){ localStorage.setItem(LS_KEY, JSON.stringify(arr)); }
-    function agregarGasto(g){ const arr=leerGastos(); arr.push(g); guardarGastos(arr); }
-    function eliminarGasto(id){ const arr=leerGastos().filter(x=>x?.id!==id); guardarGastos(arr); }
-
-    /* ========= Nuevo gasto ========= */
-    const $desc=document.getElementById('descripcion');
-    const $monto=document.getElementById('monto');
-    const $catSelect=document.getElementById('categoria');
-    const $fecha=document.getElementById('fecha');
-    const $btnGuardar=document.getElementById('btn-guardar');
-    const $msgGuardar=document.getElementById('msg-guardar');
-    const $catIcon = document.getElementById('catIcon');
-    const $catIconI= document.getElementById('catIconI');
-
-    const CAT_MAP = {
-      'Comida'     : { icon: 'fa-utensils',         cls: 'cat-comida',     tip:'Comida' },
-      'Transporte' : { icon: 'fa-bus-simple',       cls: 'cat-transporte', tip:'Transporte' },
-      'Ocio'       : { icon: 'fa-champagne-glasses',cls: 'cat-ocio',       tip:'Ocio' },
-      'Otros'      : { icon: 'fa-shapes',           cls: 'cat-otros',      tip:'Otros' }
+  /* ========= Nuevo gasto ========= */
+  const $desc=document.getElementById('descripcion');
+  const $monto=document.getElementById('monto');
+  const $catSelect=document.getElementById('categoria');
+  const $fecha=document.getElementById('fecha');
+  const $btnGuardar=document.getElementById('btn-guardar');
+  const $msgGuardar=document.getElementById('msg-guardar');
+  const $catIcon = document.getElementById('catIcon');
+  const $catIconI= document.getElementById('catIconI');
+  const CAT_MAP = {
+    'Comida' : { icon: 'fa-utensils', cls: 'cat-comida', tip:'Comida' },
+    'Transporte' : { icon: 'fa-bus-simple', cls: 'cat-transporte', tip:'Transporte' },
+    'Ocio' : { icon: 'fa-champagne-glasses',cls: 'cat-ocio', tip:'Ocio' },
+    'Otros' : { icon: 'fa-shapes', cls: 'cat-otros', tip:'Otros' }
+  };
+  function updateCategoryIcon(catValue){
+    const conf = CAT_MAP[catValue] ?? CAT_MAP['Otros'];
+    $catIcon.classList.remove('cat-comida','cat-transporte','cat-ocio','cat-otros');
+    $catIcon.classList.add(conf.cls);
+    $catIconI.className = `fa-solid ${conf.icon}`;
+    $catIcon.title = `Categoría: ${conf.tip}`;
+  }
+  updateCategoryIcon($catSelect.value);
+  $catSelect.addEventListener('change',()=> updateCategoryIcon($catSelect.value));
+  (function ponerFechaHoy(){
+    const hoy=new Date();
+    const yyyy=hoy.getFullYear();
+    const mm=String(hoy.getMonth()+1).padStart(2,'0');
+    const dd=String(hoy.getDate()).padStart(2,'0');
+    $fecha.value=`${yyyy}-${mm}-${dd}`;
+  })();
+  function avisar($el, tipo, txt){
+    $el.className = (tipo==='ok')?'alert-ok':'alert-error';
+    $el.textContent = (tipo==='ok'?'✅ ':'⚠️ ') + txt;
+    setTimeout(()=>{ $el.textContent=''; $el.className=''; },2400);
+  }
+  function limpiarFormGasto(){
+    $desc.value=''; $monto.value=''; $catSelect.value='Comida'; updateCategoryIcon('Comida');
+    const d=new Date(); const yyyy=d.getFullYear(); const mm=String(d.getMonth()+1).padStart(2,'0'); const dd=String(d.getDate()).padStart(2,'0');
+    $fecha.value=`${yyyy}-${mm}-${dd}`;
+  }
+  $btnGuardar.addEventListener('click', ()=>{
+    const descripcion = $desc.value.trim();
+    const monto = Number($monto.value);
+    const categoria = $catSelect.value;
+    const fecha = $fecha.value;
+    if(!descripcion) return avisar($msgGuardar,'error','La descripción es obligatoria.');
+    if(!Number.isFinite(monto) || monto<=0) return avisar($msgGuardar,'error','Introduce un monto válido (> 0).');
+    if(!fecha) return avisar($msgGuardar,'error','Selecciona una fecha.');
+    const gasto = {
+      id: (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()+Math.random())),
+      descripcion, monto:Number(monto.toFixed(2)), categoria, fecha,
+      creadoEn: new Date().toISOString()
     };
-    function updateCategoryIcon(catValue){
-      const conf = CAT_MAP[catValue] || CAT_MAP['Otros'];
-      $catIcon.classList.remove('cat-comida','cat-transporte','cat-ocio','cat-otros');
-      $catIcon.classList.add(conf.cls);
-      $catIconI.className = `fa-solid ${conf.icon}`;
-      $catIcon.title = `Categoría: ${conf.tip}`;
+    try{
+      agregarGasto(gasto);
+      avisar($msgGuardar,'ok','Gasto guardado correctamente.');
+      limpiarFormGasto();
+      showSection('mis-gastos');
+      renderAll();
+    }catch(e){
+      console.error('Error guardando gasto', e);
+      avisar($msgGuardar,'error','No se pudo guardar el gasto. Revisa permisos del navegador.');
     }
-    updateCategoryIcon($catSelect.value);
-    $catSelect.addEventListener('change',()=> updateCategoryIcon($catSelect.value));
+  });
 
-    (function ponerFechaHoy(){
-      const hoy=new Date();
-      const yyyy=hoy.getFullYear();
-      const mm=String(hoy.getMonth()+1).padStart(2,'0');
-      const dd=String(hoy.getDate()).padStart(2,'0');
-      $fecha.value=`${yyyy}-${mm}-${dd}`;
-    })();
-
-    function avisar(tipo, txt){
-      $msgGuardar.className = (tipo==='ok')?'alert-ok':'alert-error';
-      $msgGuardar.textContent = (tipo==='ok'?'✅ ':'⚠️ ') + txt;
-      setTimeout(()=>{ $msgGuardar.textContent=''; $msgGuardar.className=''; },2400);
-    }
-    function limpiarForm(){
-      $desc.value=''; $monto.value=''; $catSelect.value='Comida'; updateCategoryIcon('Comida');
-      const d=new Date(); const yyyy=d.getFullYear(); const mm=String(d.getMonth()+1).padStart(2,'0'); const dd=String(d.getDate()).padStart(2,'0');
-      $fecha.value=`${yyyy}-${mm}-${dd}`;
-    }
-
-    $btnGuardar.addEventListener('click', ()=>{
-      const descripcion = $desc.value.trim();
-      const monto = Number($monto.value);
-      const categoria = $catSelect.value;
-      const fecha = $fecha.value;
-
-      if(!descripcion) return avisar('error','La descripción es obligatoria.');
-      if(!Number.isFinite(monto) || monto<=0) return avisar('error','Introduce un monto válido (> 0).');
-      if(!fecha) return avisar('error','Selecciona una fecha.');
-
-      const gasto = {
-        id: (crypto.randomUUID ? crypto.randomUUID() : String(Date.now()+Math.random())),
-        descripcion, monto:Number(monto.toFixed(2)), categoria, fecha,
-        creadoEn: new Date().toISOString()
-      };
-
-      try{
-        agregarGasto(gasto);
-        avisar('ok','Gasto guardado correctamente.');
-        limpiarForm();
-        showSection('mis-gastos');
-        renderAll();
-      }catch(e){
-        console.error('Error guardando gasto', e);
-        avisar('error','No se pudo guardar el gasto. Revisa permisos del navegador.');
+  /* ========= Mis gastos (tabla + filtros + gráficas) ========= */
+  const $tabla=document.getElementById('tablaGastos');
+  const $filtroFecha=document.getElementById('filtroFecha');
+  const $filtroCategoria=document.getElementById('filtroCategoria');
+  const $btnReset=document.getElementById('btn-reset');
+  const $total=document.getElementById('total');
+  const $chkGraf=document.getElementById('chkGrafConFiltros');
+  const fmtFecha = ymd => { const [y,m,d]=ymd.split('-'); return `${d}/${m}/${y}`; };
+  function safeSort(a,b){
+    const fa=a?.fecha ?? '', fb=b?.fecha ?? '';
+    const ca=a?.creadoEn ?? '', cb=b?.creadoEn ?? '';
+    return fb.localeCompare(fa) || cb.localeCompare(ca);
+  }
+  function obtenerFiltrados(){
+    let gastos = leerGastos().filter(Boolean);
+    try{ gastos = gastos.sort(safeSort); }catch(e){ console.warn('Ordenación falló:', e); }
+    const fCat=$filtroCategoria.value??'', fFecha=$filtroFecha.value??'';
+    return gastos.filter(g => (!fCat || g.categoria===fCat) && (!fFecha || g.fecha===fFecha));
+  }
+  function renderTabla(){
+    const items=obtenerFiltrados();
+    $tabla.innerHTML=''; let suma=0;
+    if(items.length===0){
+      $tabla.innerHTML=`<tr><td colspan="5" style="text-align:center; color:#a8b3cc;">Sin resultados</td></tr>`;
+    }else{
+      for(const g of items){
+        suma+=g.monto;
+        const tr=document.createElement('tr');
+        tr.innerHTML=`
+          <td>${g.descripcion}</td>
+          <td>${g.monto.toFixed(2)}</td>
+          <td>${g.categoria}</td>
+          <td>${fmtFecha(g.fecha)}</td>
+          <td class="acciones">
+            <button class="btn-delete" aria-label="Eliminar" title="Eliminar"><i class="fa-solid fa-trash"></i></button>
+          </td>`;
+        tr.querySelector('.btn-delete').addEventListener('click',()=>{ if(confirm('¿Eliminar este gasto?')){ eliminarGasto(g.id); renderAll(); }});
+        $tabla.appendChild(tr);
       }
+    }
+    $total.textContent = `Total mostrado: € ${suma.toFixed(2)}`;
+  }
+
+  /* ========= Gráficas ========= */
+  const charts={cat:null, mes:null, trend:null};
+  function destroyCharts(){ for(const k in charts){ if(charts[k]){ charts[k].destroy(); charts[k]=null; } } }
+  const palette = { cat: ['#9aa5ff','#8bd6ff','#86e3b6','#ffd27a','#ff8ea0','#c7a4ff'], bar:'rgba(90,200,250,0.25)', barBorder:'#5ac8fa', line:'#9aa5ff', lineFill:'rgba(154,165,255,0.18)' };
+  const formatTick = v => v>=1_000_000 ? (v/1_000_000).toFixed(1)+'M' : v>=1_000 ? (v/1_000).toFixed(1)+'K' : v;
+  const niceMax = maxVal => { const m=Math.max(0,maxVal); if(m===0) return 10; const mag=10**Math.floor(Math.log10(m)); const norm=m/mag; let nice=norm<=1?1:norm<=2?2:norm<=5?5:10; return Math.ceil(nice*mag*1.15); };
+  function datosByCategory(items){ const acc={}; for(const g of items) acc[g.categoria]=(acc[g.categoria]??0)+g.monto; const labels=Object.keys(acc), data=labels.map(l=>acc[l]); return {labels, data, colors: palette.cat.slice(0,labels.length)}; }
+  function datosByMonth(items){
+    const hoy=new Date(); const series=[]; for(let i=11;i>=0;i--){ const d=new Date(hoy.getFullYear(), hoy.getMonth()-i, 1); series.push({y:d.getFullYear(), m:d.getMonth()+1}); }
+    const key=(y,m)=>`${y}-${String(m).padStart(2,'0')}`; const map=new Map(series.map(x=>[key(x.y,x.m),0]));
+    for(const g of items){ const [y,m]=g.fecha.split('-'); const k=`${y}-${m}`; if(map.has(k)) map.set(k, map.get(k)+g.monto); }
+    const labels=series.map(x=>`${String(x.m).padStart(2,'0')}/${String(x.y).slice(-2)}`); const data=series.map(x=>map.get(key(x.y,x.m)));
+    return {labels, data};
+  }
+  function datosTrend(items){
+    const hoy=new Date(); const days=[]; for(let i=29;i>=0;i--){ const d=new Date(hoy); d.setDate(hoy.getDate()-i); days.push(d); }
+    const keyOf=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+    const map=new Map(days.map(d=>[keyOf(d),0])); for(const g of items){ if(map.has(g.fecha)) map.set(g.fecha, map.get(g.fecha)+g.monto); }
+    const labels=days.map(d=>`${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}`); const data=days.map(d=>map.get(keyOf(d)));
+    return {labels, data};
+  }
+  function renderCharts(){
+    if(typeof Chart==='undefined'){ console.info('Chart.js no cargado: se omiten gráficas'); return; }
+    const todos=leerGastos().filter(Boolean);
+    const base=$chkGraf.checked ? obtenerFiltrados() : todos;
+    // Categoría (doughnut)
+    const cat=datosByCategory(base);
+    charts.cat=new Chart(document.getElementById('chartByCategory'),{
+      type:'doughnut',
+      data:{labels:cat.labels, datasets:[{data:cat.data, backgroundColor:cat.colors, borderColor:'rgba(255,255,255,.15)', borderWidth:1}]},
+      options:{ cutout:'68%', plugins:{legend:{position:'bottom', labels:{color:'#e9ecf1'}}}, responsive:true, maintainAspectRatio:false }
     });
+    // Mes (bar)
+    const mes=datosByMonth(base);
+    const maxMes = niceMax(Math.max(...mes.data));
+    charts.mes=new Chart(document.getElementById('chartByMonth'),{
+      type:'bar',
+      data:{labels:mes.labels, datasets:[{label:'€', data:mes.data, backgroundColor:palette.bar, borderColor:palette.barBorder, borderWidth:1, borderRadius:8, barThickness:'flex', maxBarThickness:36}]},
+      options:{ scales:{
+        x:{ ticks:{ color:'#cfd6e8' }, grid:{ color:'rgba(255,255,255,.06)'} },
+        y:{ ticks:{ color:'#cfd6e8', callback:formatTick }, grid:{ color:'rgba(255,255,255,.06)'}, beginAtZero:true, suggestedMax:maxMes, max:maxMes }
+      }, plugins:{ legend:{ labels:{ color:'#e9ecf1' } } }, responsive:true, maintainAspectRatio:false }
+    });
+    // Tendencia 30 días (line)
+    const tr=datosTrend(base);
+    const maxTrend = niceMax(Math.max(...tr.data));
+    charts.trend=new Chart(document.getElementById('chartTrend'),{
+      type:'line',
+      data:{labels:tr.labels, datasets:[{label:'€ / día', data:tr.data, fill:true, borderColor:'#9aa5ff', backgroundColor:'rgba(154,165,255,0.18)', tension:.25, pointRadius:2, pointBackgroundColor:'#fff'}]},
+      options:{ scales:{
+        x:{ ticks:{ color:'#cfd6e8' }, grid:{ color:'rgba(255,255,255,.06)' } },
+        y:{ ticks:{ color:'#cfd6e8', callback:formatTick }, grid:{ color:'rgba(255,255,255,.06)'}, beginAtZero:true, suggestedMax:maxTrend, max:maxTrend }
+      }, plugins:{ legend:{ labels:{ color:'#e9ecf1' } } }, responsive:true, maintainAspectRatio:false }
+    });
+  }
 
-    /* ========= Mis gastos (tabla + filtros + gráficas) ========= */
-    const $tabla=document.getElementById('tablaGastos');
-    const $filtroFecha=document.getElementById('filtroFecha');
-    const $filtroCategoria=document.getElementById('filtroCategoria');
-    const $btnReset=document.getElementById('btn-reset');
-    const $total=document.getElementById('total');
-    const $chkGraf=document.getElementById('chkGrafConFiltros');
+  /* ========= Calculadora ========= */
+  const display=document.getElementById('calc-display');
+  const buttons=document.querySelectorAll('.calc-buttons button');
+  let calcValue='';
+  const isAllowedExpression = exp => /^[0-9+\-*/. ]+$/.test(exp);
+  const updateDisplay = ()=>{ display.value = calcValue; };
+  buttons.forEach(b=>b.addEventListener('click',()=>{
+    const v=b.textContent;
+    if(v==='C'){ calcValue=''; updateDisplay(); }
+    else if(v==='='){
+      if(!calcValue) return;
+      try{
+        const exp = calcValue.replace(/\s+/g,'');
+        if(!isAllowedExpression(exp)) throw new Error('Expresión no permitida');
+        calcValue=String(eval(exp)); updateDisplay();
+      }catch{ display.value='Error'; calcValue=''; }
+    }else{ calcValue+=v; updateDisplay(); }
+  }));
+  document.addEventListener('keydown',(e)=>{
+    const k=e.key;
+    if(/[0-9+\-*/.]/.test(k)){ calcValue+=k; updateDisplay(); }
+    else if(k==='Enter'){ e.preventDefault(); const exp = calcValue.replace(/\s+/g,''); if(!isAllowedExpression(exp)){ display.value='Error'; calcValue=''; return; } try{ calcValue=String(eval(exp)); updateDisplay(); }catch{ display.value='Error'; calcValue=''; } }
+    else if(k==='Escape'){ calcValue=''; updateDisplay(); }
+    else if(k==='Backspace'){ calcValue = calcValue.slice(0,-1); updateDisplay(); }
+  });
 
-    const fmtFecha = ymd => { const [y,m,d]=ymd.split('-'); return `${d}/${m}/${y}`; };
-    function safeSort(a,b){
-      const fa=a?.fecha || '', fb=b?.fecha || '';
-      const ca=a?.creadoEn || '', cb=b?.creadoEn || '';
-      return fb.localeCompare(fa) || cb.localeCompare(ca);
+  /* ========= METAS ========= */
+  const LS_METAS='metas';
+  const $metasList = document.getElementById('metasList');
+  const $msgMeta = document.getElementById('msg-meta');
+  const $metaTitulo=document.getElementById('metaTitulo');
+  const $metaTipo=document.getElementById('metaTipo');
+  const $metaPeriodo=document.getElementById('metaPeriodo');
+  const $metaObjetivo=document.getElementById('metaObjetivo');
+  const $metaPorcentaje=document.getElementById('metaPorcentaje');
+  const $metaCategoria=document.getElementById('metaCategoria');
+  const $metaEtiqueta=document.getElementById('metaEtiqueta');
+  const $wrapObjetivo=document.getElementById('wrapObjetivo');
+  const $wrapPorcentaje=document.getElementById('wrapPorcentaje');
+  const $btnGuardarMeta=document.getElementById('btnGuardarMeta');
+
+  function toggleCamposMeta(){
+    const tipo = $metaTipo.value;
+    if(tipo==='limite'){ $wrapObjetivo.style.display='block'; $wrapPorcentaje.style.display='none'; }
+    else { $wrapObjetivo.style.display='none'; $wrapPorcentaje.style.display='block'; }
+  }
+  $metaTipo.addEventListener('change', toggleCamposMeta);
+
+  // Plantillas rápidas
+  document.querySelectorAll('.template-card').forEach(card=>{
+    card.addEventListener('click', ()=>{
+      const t = card.dataset.template;
+      if(t==='luz'){
+        $metaTitulo.value = 'Ahorrar en la factura de luz';
+        $metaTipo.value = 'limite';
+        $metaPeriodo.value = 'mensual';
+        $metaObjetivo.value = '60';
+        $metaCategoria.value = '';
+        $metaEtiqueta.value = 'luz';
+      }else if(t==='tope-mensual'){
+        $metaTitulo.value = 'Gasto mensual máximo';
+        $metaTipo.value = 'limite';
+        $metaPeriodo.value = 'mensual';
+        $metaObjetivo.value = '200';
+        $metaCategoria.value = '';
+        $metaEtiqueta.value = '';
+      }else if(t==='reducir-ocio'){
+        $metaTitulo.value = 'Reducir Ocio un 20%';
+        $metaTipo.value = 'reduccion';
+        $metaPeriodo.value = 'mensual';
+        $metaPorcentaje.value = '20';
+        $metaCategoria.value = 'Ocio';
+        $metaEtiqueta.value = '';
+      }
+      toggleCamposMeta();
+    });
+  });
+
+  // CRUD metas
+  function leerMetas(){
+    try{
+      const raw = JSON.parse(localStorage.getItem(LS_METAS) ?? '[]');
+      return Array.isArray(raw) ? raw : [];
+    }catch{ return []; }
+  }
+  function guardarMetas(arr){ localStorage.setItem(LS_METAS, JSON.stringify(arr)); }
+  function agregarMeta(m){ const arr=leerMetas(); arr.push(m); guardarMetas(arr); }
+  function eliminarMeta(id){ const arr=leerMetas().filter(x=>x?.id!==id); guardarMetas(arr); }
+
+  // Fechas de periodo
+  function periodRange(periodo){
+    const now = new Date();
+    const start = new Date(now.getFullYear(), now.getMonth(), 1);
+    const end = new Date(now.getFullYear(), now.getMonth()+1, 0);
+    if(periodo==='mensual') return {start, end};
+    const start3 = new Date(now.getFullYear(), now.getMonth()-2, 1);
+    const end3 = end;
+    return {start:start3, end:end3};
+  }
+  function prevMonthRange(){
+    const now = new Date();
+    const start = new Date(now.getFullYear(), now.getMonth()-1, 1);
+    const end = new Date(now.getFullYear(), now.getMonth(), 0);
+    return {start, end};
+  }
+  function parseYMD(ymd){
+    const [y,m,d] = ymd.split('-').map(Number);
+    return new Date(y, m-1, d);
+  }
+
+  // Filtro de gastos por meta
+  function gastosParaMeta(meta){
+    const gastos = leerGastos();
+    const {start, end} = periodRange(meta.periodo ?? 'mensual');
+    const s = +new Date(start.getFullYear(), start.getMonth(), start.getDate());
+    const e = +new Date(end.getFullYear(), end.getMonth(), end.getDate(), 23,59,59);
+    return gastos.filter(g=>{
+      const t = +parseYMD(g.fecha);
+      const okDate = (t>=s && t<=e);
+      const okCat = !meta.categoria || g.categoria===meta.categoria;
+      const okTag = !meta.etiqueta || g.descripcion.toLowerCase().includes(String(meta.etiqueta).toLowerCase());
+      return okDate && okCat && okTag;
+    });
+  }
+  function gastosParaMetaMesAnterior(meta){
+    const gastos = leerGastos();
+    const {start, end} = prevMonthRange();
+    const s = +new Date(start.getFullYear(), start.getMonth(), start.getDate());
+    const e = +new Date(end.getFullYear(), end.getMonth(), end.getDate(), 23,59,59);
+    return gastos.filter(g=>{
+      const t = +parseYMD(g.fecha);
+      const okDate = (t>=s && t<=e);
+      const okCat = !meta.categoria || g.categoria===meta.categoria;
+      const okTag = !meta.etiqueta || g.descripcion.toLowerCase().includes(String(meta.etiqueta).toLowerCase());
+      return okDate && okCat && okTag;
+    });
+  }
+
+  function clamp(n,min,max){ return Math.max(min, Math.min(max, n)); }
+
+  function renderMetas(){
+    const metas = leerMetas();
+    $metasList.innerHTML = '';
+    if(metas.length===0){
+      $metasList.innerHTML = '<div class="hint">Aún no tienes metas. Crea una desde las plantillas o personaliza la tuya.</div>';
+      return;
     }
-    function obtenerFiltrados(){
-      let gastos = leerGastos().filter(Boolean);
-      try{ gastos = gastos.sort(safeSort); }catch(e){ console.warn('Ordenación falló:', e); }
-      const fCat=$filtroCategoria.value||'', fFecha=$filtroFecha.value||'';
-      return gastos.filter(g => (!fCat || g.categoria===fCat) && (!fFecha || g.fecha===fFecha));
-    }
-    function renderTabla(){
-      const items=obtenerFiltrados();
-      $tabla.innerHTML=''; let suma=0;
-      if(items.length===0){
-        $tabla.innerHTML=`<tr><td colspan="5" style="text-align:center; color:#a8b3cc;">Sin resultados</td></tr>`;
-      }else{
-        for(const g of items){
-          suma+=g.monto;
-          const tr=document.createElement('tr');
-          tr.innerHTML=`
-            <td>${g.descripcion}</td>
-            <td>${g.monto.toFixed(2)}</td>
-            <td>${g.categoria}</td>
-            <td>${fmtFecha(g.fecha)}</td>
-            <td class="acciones">
-              <button class="btn-delete" aria-label="Eliminar" title="Eliminar"><i class="fa-solid fa-trash"></i></button>
-            </td>`;
-          tr.querySelector('.btn-delete').addEventListener('click',()=>{ if(confirm('¿Eliminar este gasto?')){ eliminarGasto(g.id); renderAll(); }});
-          $tabla.appendChild(tr);
+
+    metas.forEach(meta=>{
+      const gastosActual = gastosParaMeta(meta);
+      const totalActual = gastosActual.reduce((a,b)=>a+b.monto,0);
+
+      let estadoClass='ok', estadoTxt='Dentro del límite', barra=0, detalle='';
+      let objetivoNum = 0;
+
+      if(meta.tipo==='limite'){
+        objetivoNum = Number(meta.objetivo||0);
+        barra = objetivoNum>0 ? clamp((totalActual/objetivoNum)*100, 0, 150) : 0;
+        if(objetivoNum>0){
+          if(totalActual>objetivoNum){ estadoClass='err'; estadoTxt='Excedida'; }
+          else { estadoClass='ok'; estadoTxt='Dentro del límite'; }
+          detalle = `Consumido: € ${totalActual.toFixed(2)} / Objetivo: € ${objetivoNum.toFixed(2)}`;
+        }else{
+          estadoClass='warn'; estadoTxt='Sin objetivo (€)'; detalle='Define un objetivo para calcular progreso.';
+        }
+      }else if(meta.tipo==='reduccion'){
+        const prev = gastosParaMetaMesAnterior(meta).reduce((a,b)=>a+b.monto,0);
+        const pct = Number(meta.porcentaje||0);
+        const objetivoReduc = prev * (1 - pct/100);
+        objetivoNum = objetivoReduc;
+        if(prev===0){
+          estadoClass='warn'; estadoTxt='Sin historial mes anterior';
+          detalle = 'No hay datos del mes pasado para calcular reducción.';
+          barra = 0;
+        }else{
+          barra = objetivoReduc>0 ? clamp((totalActual/objetivoReduc)*100,0,150) : 0;
+          if(totalActual <= objetivoReduc){ estadoClass='ok'; estadoTxt='Cumplida'; }
+          else{ estadoClass='warn'; estadoTxt='Pendiente'; }
+          detalle = `Mes pasado: € ${prev.toFixed(2)} · Objetivo: € ${objetivoReduc.toFixed(2)} · Actual: € ${totalActual.toFixed(2)}`;
         }
       }
-      $total.textContent = `Total mostrado: € ${suma.toFixed(2)}`;
-    }
 
-    /* ========= Gráficas sutiles ========= */
-    const charts={cat:null, mes:null, trend:null};
-    function destroyCharts(){ for(const k in charts){ if(charts[k]){ charts[k].destroy(); charts[k]=null; } } }
-    const palette = { cat: ['#9aa5ff','#8bd6ff','#86e3b6','#ffd27a','#ff8ea0','#c7a4ff'], bar:'rgba(90,200,250,0.25)', barBorder:'#5ac8fa', line:'#9aa5ff', lineFill:'rgba(154,165,255,0.18)' };
-    const formatTick = v => v>=1_000_000 ? (v/1_000_000).toFixed(1)+'M' : v>=1_000 ? (v/1_000).toFixed(1)+'K' : v;
-    const niceMax = maxVal => { const m=Math.max(0,maxVal); if(m===0) return 10; const mag=10**Math.floor(Math.log10(m)); const norm=m/mag; let nice=norm<=1?1:norm<=2?2:norm<=5?5:10; return Math.ceil(nice*mag*1.15); };
+      const periodoTxt = meta.periodo==='3m' ? '3 meses' : 'Mensual';
+      const filtros = [];
+      if(meta.categoria) filtros.push('Cat: '+meta.categoria);
+      if(meta.etiqueta) filtros.push('Etiqueta: "'+meta.etiqueta+'"');
 
-    function datosByCategory(items){ const acc={}; for(const g of items) acc[g.categoria]=(acc[g.categoria]||0)+g.monto; const labels=Object.keys(acc), data=labels.map(l=>acc[l]); return {labels, data, colors: palette.cat.slice(0,labels.length)}; }
-    function datosByMonth(items){
-      const hoy=new Date(); const series=[]; for(let i=11;i>=0;i--){ const d=new Date(hoy.getFullYear(), hoy.getMonth()-i, 1); series.push({y:d.getFullYear(), m:d.getMonth()+1}); }
-      const key=(y,m)=>`${y}-${String(m).padStart(2,'0')}`; const map=new Map(series.map(x=>[key(x.y,x.m),0]));
-      for(const g of items){ const [y,m]=g.fecha.split('-'); const k=`${y}-${m}`; if(map.has(k)) map.set(k, map.get(k)+g.monto); }
-      const labels=series.map(x=>`${String(x.m).padStart(2,'0')}/${String(x.y).slice(-2)}`); const data=series.map(x=>map.get(key(x.y,x.m)));
-      return {labels, data};
-    }
-    function datosTrend(items){
-      const hoy=new Date(); const days=[]; for(let i=29;i>=0;i--){ const d=new Date(hoy); d.setDate(hoy.getDate()-i); days.push(d); }
-      const keyOf=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-      const map=new Map(days.map(d=>[keyOf(d),0])); for(const g of items){ if(map.has(g.fecha)) map.set(g.fecha, map.get(g.fecha)+g.monto); }
-      const labels=days.map(d=>`${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}`); const data=days.map(d=>map.get(keyOf(d)));
-      return {labels, data};
-    }
-
-    function renderCharts(){
-      if(typeof Chart==='undefined'){ console.info('Chart.js no cargado: se omiten gráficas'); return; }
-      const todos=leerGastos().filter(Boolean);
-      const base=$chkGraf.checked ? obtenerFiltrados() : todos;
-
-      // Categoría (doughnut)
-      const cat=datosByCategory(base);
-      charts.cat=new Chart(document.getElementById('chartByCategory'),{
-        type:'doughnut',
-        data:{labels:cat.labels, datasets:[{data:cat.data, backgroundColor:cat.colors, borderColor:'rgba(255,255,255,.15)', borderWidth:1}]},
-        options:{ cutout:'68%', plugins:{legend:{position:'bottom', labels:{color:'#e9ecf1'}}}, responsive:true, maintainAspectRatio:false }
+      const div = document.createElement('div');
+      div.className='meta-item';
+      div.innerHTML = `
+        <div class="meta-top">
+          <div class="meta-title">${meta.titulo||'(Meta sin título)'}</div>
+          <span class="status ${estadoClass}">${estadoTxt}</span>
+        </div>
+        <div class="meta-tags">
+          <span class="tag">${meta.tipo==='limite'?'Límite (€)':'Reducción (%)'}</span>
+          <span class="tag">${periodoTxt}</span>
+          ${filtros.map(t=>'<span class="tag">'+t+'</span>').join('')}
+        </div>
+        <div class="progress" title="${detalle}">
+          <span style="width:${clamp(barra,0,100)}%"></span>
+        </div>
+        <div class="meta-footer">
+          <div>${detalle}</div>
+          <button class="meta-delete" data-del="${meta.id}"><i class="fa-solid fa-trash"></i> Eliminar</button>
+        </div>
+      `;
+      div.querySelector('.meta-delete').addEventListener('click', ()=>{
+        if(confirm('¿Eliminar esta meta?')){ eliminarMeta(meta.id); renderMetas(); }
       });
+      $metasList.appendChild(div);
+    });
+  }
 
-      // Mes (bar)
-      const mes=datosByMonth(base);
-      const maxMes = niceMax(Math.max(...mes.data));
-      charts.mes=new Chart(document.getElementById('chartByMonth'),{
-        type:'bar',
-        data:{labels:mes.labels, datasets:[{label:'€', data:mes.data, backgroundColor:palette.bar, borderColor:palette.barBorder, borderWidth:1, borderRadius:8, barThickness:'flex', maxBarThickness:36}]},
-        options:{ scales:{
-          x:{ ticks:{ color:'#cfd6e8' }, grid:{ color:'rgba(255,255,255,.06)'} },
-          y:{ ticks:{ color:'#cfd6e8', callback:formatTick }, grid:{ color:'rgba(255,255,255,.06)'}, beginAtZero:true, suggestedMax:maxMes, max:maxMes }
-        }, plugins:{ legend:{ labels:{ color:'#e9ecf1' } } }, responsive:true, maintainAspectRatio:false }
-      });
+  // Guardar meta
+  $btnGuardarMeta.addEventListener('click', ()=>{
+    const tipo = $metaTipo.value;
+    const periodo = $metaPeriodo.value;
+    const titulo = $metaTitulo.value.trim() || (tipo==='limite'?'Límite de gasto':'Reducción de gasto');
+    const categoria = $metaCategoria.value || '';
+    const etiqueta = ($metaEtiqueta.value||'').trim();
 
-      // Tendencia 30 días (line)
-      const tr=datosTrend(base);
-      const maxTrend = niceMax(Math.max(...tr.data));
-      charts.trend=new Chart(document.getElementById('chartTrend'),{
-        type:'line',
-        data:{labels:tr.labels, datasets:[{label:'€ / día', data:tr.data, fill:true, borderColor:'#9aa5ff', backgroundColor:'rgba(154,165,255,0.18)', tension:.25, pointRadius:2, pointBackgroundColor:'#fff'}]},
-        options:{ scales:{
-          x:{ ticks:{ color:'#cfd6e8' }, grid:{ color:'rgba(255,255,255,.06)' } },
-          y:{ ticks:{ color:'#cfd6e8', callback:formatTick }, grid:{ color:'rgba(255,255,255,.06)'}, beginAtZero:true, suggestedMax:maxTrend, max:maxTrend }
-        }, plugins:{ legend:{ labels:{ color:'#e9ecf1' } } }, responsive:true, maintainAspectRatio:false }
-      });
+    if(tipo==='limite'){
+      const objetivo = Number($metaObjetivo.value);
+      if(!Number.isFinite(objetivo) || objetivo<=0) return avisar($msgMeta,'error','Indica un objetivo (€) válido.');
+      const meta = { id: crypto.randomUUID?crypto.randomUUID():String(Date.now()+Math.random()), titulo, tipo, periodo, objetivo:Number(objetivo.toFixed(2)), categoria, etiqueta, creadoEn:new Date().toISOString() };
+      agregarMeta(meta);
+      avisar($msgMeta,'ok','Meta guardada.');
+    }else{
+      const porcentaje = Number($metaPorcentaje.value);
+      if(!Number.isFinite(porcentaje) || porcentaje<=0 || porcentaje>100) return avisar($msgMeta,'error','Indica un porcentaje entre 1 y 100.');
+      const meta = { id: crypto.randomUUID?crypto.randomUUID():String(Date.now()+Math.random()), titulo, tipo, periodo, porcentaje:Math.round(porcentaje), categoria, etiqueta, creadoEn:new Date().toISOString() };
+      agregarMeta(meta);
+      avisar($msgMeta,'ok','Meta guardada.');
     }
 
-    function renderAll(){ renderTabla(); destroyCharts(); renderCharts(); }
+    // Limpieza rápida
+    $metaTitulo.value='';
+    if($metaTipo.value==='limite'){ $metaObjetivo.value=''; } else { $metaPorcentaje.value=''; }
+    $metaCategoria.value=''; $metaEtiqueta.value='';
+    renderMetas();
+  });
 
-    // Filtros
-    document.getElementById('btn-reset').addEventListener('click',()=>{ $filtroFecha.value=''; $filtroCategoria.value=''; renderAll(); });
-    $filtroFecha.addEventListener('change',renderAll);
-    $filtroCategoria.addEventListener('change',renderAll);
-    $chkGraf.addEventListener('change',renderAll);
-
-    /* ========= Calculadora ========= */
-    const display=document.getElementById('calc-display');
-    const buttons=document.querySelectorAll('.calc-buttons button');
-    let calcValue='';
-    buttons.forEach(b=>b.addEventListener('click',()=>{
-      const v=b.textContent;
-      if(v==='C'){ calcValue=''; display.value=''; }
-      else if(v==='='){ try{ calcValue=String(eval(calcValue)); display.value=calcValue; }catch{ display.value='Error'; calcValue=''; } }
-      else{ calcValue+=v; display.value=calcValue; }
-    }));
-
-    // Inicializar
-    document.addEventListener('DOMContentLoaded',()=>{ renderAll(); });
+  /* ========= Inicialización global ========= */
+  function renderAll(){ renderTabla(); destroyCharts(); renderCharts(); renderMetas(); }
+  // Filtros gastos
+  document.getElementById('btn-reset').addEventListener('click',()=>{ $filtroFecha.value=''; $filtroCategoria.value=''; renderAll(); });
+  $filtroFecha.addEventListener('change',renderAll);
+  $filtroCategoria.addEventListener('change',renderAll);
+  $chkGraf.addEventListener('change',renderAll);
+  // Al cargar
+  document.addEventListener('DOMContentLoaded',()=>{ toggleCamposMeta(); renderAll(); });
   </script>
 </body>
 </html>
