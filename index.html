@@ -1,0 +1,643 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MiGestor+ Pro</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet"/>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    :root{
+      --bg:#0f1224; --card:rgba(255,255,255,0.08); --card-border:rgba(255,255,255,0.15);
+      --text:#e9ecf1; --muted:#aab3c2; --primary:#5ac8fa; --accent:#7b61ff;
+      --success:#41d37e; --danger:#ff4d4f; --shadow:0 10px 30px rgba(0,0,0,.35); --radius:16px;
+    }
+    *{ box-sizing:border-box; } html,body{ height:100%; }
+    body{
+      margin:0; font-family:'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: radial-gradient(1200px 800px at 10% -10%, #1a1f45 0%, transparent 40%),
+                  radial-gradient(900px 700px at 110% 10%, #2b2258 0%, transparent 45%),
+                  var(--bg); color:var(--text);
+    }
+
+    header{ position:sticky; top:0; z-index:10; backdrop-filter:blur(10px);
+      background:linear-gradient(90deg, rgba(90,200,250,.25), rgba(123,97,255,.25));
+      border-bottom:1px solid var(--card-border);
+    }
+    .bar{ display:flex; align-items:center; justify-content:space-between; padding:14px 24px; max-width:1200px; margin:0 auto; }
+    .logo{ display:flex; align-items:center; gap:12px; font-weight:700; }
+    .logo img{ width:36px; height:36px; border-radius:10px; box-shadow:var(--shadow); }
+    nav{ display:flex; gap:14px; }
+    nav a{ color:var(--text); text-decoration:none; font-weight:600; font-size:14px;
+      display:flex; align-items:center; gap:8px; padding:10px 12px; border-radius:12px;
+      border:1px solid transparent; transition:all .2s;
+    }
+    nav a:hover{ background:rgba(255,255,255,.06); border-color:var(--card-border); transform:translateY(-1px); }
+
+    main{ max-width:1200px; margin:26px auto; padding:0 16px 40px; }
+
+    section{
+      display:none; background:var(--card); border:1px solid var(--card-border);
+      border-radius:var(--radius); box-shadow:var(--shadow); padding:26px; overflow:hidden;
+    }
+    section.active{ display:block; animation:fadeIn .35s ease; }
+    @keyframes fadeIn{from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:none;}}
+
+    /* Inicio */
+    #inicio{ padding:34px 26px; background:linear-gradient(180deg, rgba(123,97,255,.18), rgba(90,200,250,.10)); }
+    #inicio .hero{ display:grid; grid-template-columns:1.2fr .8fr; gap:24px; align-items:center; }
+    .cards{ display:grid; grid-template-columns:repeat(auto-fit, minmax(210px,1fr)); gap:18px; margin-top:8px; }
+    .card{
+      position:relative; overflow:hidden; border-radius:18px; padding:18px;
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border:1px solid var(--card-border); cursor:pointer; transition: transform .2s, box-shadow .2s, border-color .2s;
+    }
+    .card:before{ content:""; position:absolute; inset:-1px; border-radius:inherit;
+      background:conic-gradient(from 180deg, rgba(122,99,255,.35), rgba(90,200,250,.35), rgba(122,99,255,.35));
+      filter:blur(20px); opacity:.35; z-index:0;
+    }
+    .card:hover{ transform:translateY(-3px); border-color:rgba(123,97,255,.55); box-shadow:0 15px 40px rgba(0,0,0,.35); }
+    .card .icon{ width:42px; height:42px; display:grid; place-items:center; border-radius:12px; color:#fff;
+      background:linear-gradient(135deg, rgba(123,97,255,.25), rgba(90,200,250,.25)); border:1px solid var(--card-border);
+    }
+    .card h4{ margin:10px 0 4px; } .card p{ margin:0; color:var(--muted); font-size:13px; }
+
+    /* Nuevo gasto */
+    #nuevo-gasto .form{ display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr)); gap:14px; margin-top:12px; }
+    label{ font-weight:600; font-size:13px; color:var(--muted); margin-bottom:6px; display:block; }
+    .field{ background:rgba(255,255,255,.05); border:1px solid var(--card-border); border-radius:12px;
+      padding:10px 12px; display:flex; align-items:center; gap:10px; }
+    .field i{ color:var(--accent); }
+    .field input, .field select{ background:transparent; border:none; outline:none; color:var(--text); width:100%; font-size:14px; }
+    .actions{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-top:12px; }
+    .btn{ display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border-radius:12px; border:1px solid transparent; cursor:pointer; font-weight:700; transition:transform .15s, background .2s, border-color .2s; }
+    .btn-primary{ background:linear-gradient(90deg, var(--primary), var(--accent)); color:#081326; }
+    .btn-primary:hover{ transform:translateY(-1px); }
+    .btn-ghost{ background:transparent; color:var(--text); border-color:var(--card-border); }
+    .btn-ghost:hover{ background:rgba(255,255,255,.06); }
+    .hint{ color:var(--muted); font-size:12px; }
+    #msg-guardar{ margin-top:8px; }
+
+    /* Tabla + filtros */
+    table{ width:100%; border-collapse:collapse; margin-top:16px; }
+    th,td{ border-bottom:1px solid rgba(255,255,255,.08); padding:10px; text-align:left; }
+    th{ color:var(--muted); font-weight:600; }
+
+    /* Contenedor rojo de eliminar (compacto) */
+    .btn-delete{
+      display:inline-flex; align-items:center; justify-content:center;
+      width:34px; height:28px; border-radius:10px;
+      background: var(--danger); color:#fff; border:none; cursor:pointer;
+      box-shadow:0 6px 12px rgba(255,77,79,.35); transition: transform .15s ease, filter .15s ease;
+    }
+    .btn-delete:hover{ transform:translateY(-1px); filter:brightness(1.05); }
+    .btn-delete i{ font-size:14px; }
+
+    .filters{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-top:8px; }
+    .filters .field{ max-width:240px; }
+    .filters .check{ display:flex; align-items:center; gap:8px; color:var(--muted); font-size:13px; }
+
+    /* Gráficas: paneles sutiles */
+    .charts{ margin-top:18px; display:grid; grid-template-columns:repeat(auto-fit, minmax(290px,1fr)); gap:16px; }
+    .chart-card{ background:rgba(255,255,255,.06); border:1px solid var(--card-border);
+      border-radius:14px; padding:14px; min-height:260px; height:300px; display:flex; flex-direction:column;
+    }
+    .chart-card h5{ margin:0 0 8px; font-size:14px; color:#dbe2f4; }
+    .chart-card canvas{ flex:1 1 auto; }
+
+    /* Calculadora */
+    #calculadora.active{ display:flex; flex-direction:column; align-items:center; }
+    .calc-display{ width:100%; max-width:320px; height:56px; font-size:24px; text-align:right; padding:10px; margin-bottom:12px; border-radius:12px; border:1px solid var(--card-border); background:rgba(255,255,255,.05); color:var(--text); }
+    .calc-buttons{ display:grid; grid-template-columns:repeat(4, 76px); gap:10px; }
+    .calc-buttons button{ padding:18px; font-size:18px; color:#fff; background:linear-gradient(135deg, #5865f2, #22c1c3); border:none; border-radius:12px; cursor:pointer; transition:transform .15s, filter .15s; }
+    .calc-buttons button:hover{ transform:translateY(-1px); filter:brightness(1.05); }
+
+    /* Avisos + Toast */
+    .alert-ok,.alert-error{ margin-top:8px; padding:8px 12px; border-radius:10px; display:inline-flex; align-items:center; gap:8px; font-weight:600; }
+    .alert-ok{ color:#0e3b22; background:#c9f3da; border:1px solid #a9e7c4; }
+    .alert-error{ color:#471b1b; background:#f6c9ce; border:1px solid #efb1b8; }
+    .toast{
+      position:fixed; right:16px; bottom:16px; background:#16203d; color:#e9ecf1;
+      border:1px solid rgba(255,255,255,.15); border-radius:12px; padding:10px 14px;
+      box-shadow:var(--shadow); display:flex; align-items:center; gap:8px; z-index:9999; animation:slideUp .25s ease;
+    }
+    .toast i{ color:var(--success); }
+    @keyframes slideUp{from{transform:translateY(12px); opacity:0;} to{transform:none; opacity:1;}}
+
+    /* Select: contraste + caret */
+    .field select {
+      color: var(--text); background-color: transparent;
+      border: none; outline: none; appearance: none; padding-right: 28px;
+      background-image: linear-gradient(45deg, transparent 50%, #cfd6e8 50%),
+                        linear-gradient(135deg, #cfd6e8 50%, transparent 50%);
+      background-position: calc(100% - 16px) calc(50% - 3px), calc(100% - 10px) calc(50% - 3px);
+      background-size: 6px 6px, 6px 6px; background-repeat: no-repeat;
+    }
+    .field select option { color:#0f1224; }
+
+    /* Input number: sin steppers */
+    .field input[type="number"]::-webkit-outer-spin-button,
+    .field input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+    .field input[type="number"] { -moz-appearance: textfield; }
+
+    /* Icono de categoría — compacto */
+    .cat-icon {
+      width: 20px; height: 20px; display:grid; place-items:center; border-radius:6px;
+      margin-left: 6px; color:#fff; border:1px solid var(--card-border);
+      background: linear-gradient(135deg, rgba(123,97,255,.25), rgba(90,200,250,.25));
+      cursor: help;
+    }
+    .cat-comida     { background: linear-gradient(135deg, #ff7b7b55, #ffaeae55); }
+    .cat-transporte { background: linear-gradient(135deg, #5ac8fa55, #2ea8e955); }
+    .cat-ocio       { background: linear-gradient(135deg, #7b61ff55, #a48cff55); }
+    .cat-otros      { background: linear-gradient(135deg, #ffc14d55, #ffd78a55); }
+    .cat-icon i{ font-size: 12px; }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="bar">
+      <div class="logo">
+        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Logo MiGestor+ Pro"/>
+        <span>MiGestor+ Pro</span>
+      </div>
+      <nav>
+        <a data-section="inicio"><i class="fas fa-home"></i> Inicio</a>
+        <a data-section="nuevo-gasto"><i class="fas fa-plus-circle"></i> Nuevo gasto</a>
+        <a data-section="mis-gastos"><i class="fas fa-list"></i> Mis gastos</a>
+        <a data-section="calculadora"><i class="fas fa-calculator"></i> Calculadora</a>
+        <a data-section="metas"><i class="fas fa-bullseye"></i> Metas</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <!-- INICIO -->
+    <section id="inicio" class="active">
+      <div class="hero">
+        <div>
+          <h2>Bienvenido a MiGestor+ Pro</h2>
+          <p>Controla tus gastos, ahorra y alcanza tus metas con una interfaz moderna, rápida y fácil de usar.</p>
+          <div class="cards">
+            <div class="card" data-section="nuevo-gasto">
+              <div class="icon"><i class="fa-solid fa-plus"></i></div>
+              <h4>Añade gastos</h4>
+              <p>Registra tus movimientos en segundos.</p>
+            </div>
+            <div class="card" data-section="mis-gastos">
+              <div class="icon"><i class="fa-solid fa-list"></i></div>
+              <h4>Consulta gastos</h4>
+              <p>Filtra, elimina y revisa totales.</p>
+            </div>
+            <div class="card" data-section="calculadora">
+              <div class="icon"><i class="fa-solid fa-calculator"></i></div>
+              <h4>Calculadora</h4>
+              <p>Haz operaciones rápidas.</p>
+            </div>
+            <div class="card" data-section="metas">
+              <div class="icon"><i class="fa-solid fa-bullseye"></i></div>
+              <h4>Metas</h4>
+              <p>Define objetivos y progreso.</p>
+            </div>
+          </div>
+        </div>
+        <div>
+          <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Logo grande" style="width:96px; opacity:.9;"/>
+        </div>
+      </div>
+    </section>
+
+    <!-- NUEVO GASTO -->
+    <section id="nuevo-gasto">
+      <h3 style="margin-top:0;">Añadir nuevo gasto</h3>
+      <div class="form">
+        <div>
+          <label for="descripcion">Descripción</label>
+          <div class="field" title="Describe el gasto">
+            <i class="fa-regular fa-pen-to-square"></i>
+            <input type="text" id="descripcion" placeholder="Ej: Café" />
+          </div>
+        </div>
+        <div>
+          <label for="monto">Monto (€)</label>
+          <div class="field" title="Importe en euros">
+            <i class="fa-solid fa-euro-sign"></i>
+            <input type="number" id="monto" placeholder="0.00" step="0.01" min="0" />
+          </div>
+        </div>
+        <div>
+          <label for="categoria">Categoría</label>
+          <div class="field" title="Selecciona una categoría">
+            <i class="fa-solid fa-tags"></i>
+            <select id="categoria">
+              <option value="Comida">Comida</option>
+              <option value="Transporte">Transporte</option>
+              <option value="Ocio">Ocio</option>
+              <option value="Otros">Otros</option>
+            </select>
+            <!-- Icono dinámico compacto -->
+            <div id="catIcon" class="cat-icon" title="Categoría seleccionada">
+              <i id="catIconI" class="fa-solid fa-utensils"></i>
+            </div>
+          </div>
+        </div>
+        <div>
+          <label for="fecha">Fecha</label>
+          <div class="field" title="Fecha del gasto">
+            <i class="fa-regular fa-calendar"></i>
+            <input type="date" id="fecha" />
+          </div>
+        </div>
+      </div>
+      <div class="actions">
+        <button id="btn-guardar" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Guardar gasto</button>
+        <span class="hint">Los datos se guardan en tu navegador (localStorage).</span>
+      </div>
+      <div id="msg-guardar"></div>
+    </section>
+
+    <!-- MIS GASTOS -->
+    <section id="mis-gastos">
+      <h3 style="margin-top:0;">Lista de gastos</h3>
+      <div class="filters">
+        <div class="field">
+          <i class="fa-regular fa-calendar"></i>
+          <input type="date" id="filtroFecha"/>
+        </div>
+        <div class="field">
+          <i class="fa-solid fa-filter"></i>
+          <select id="filtroCategoria">
+            <option value="">Todas las categorías</option>
+            <option value="Comida">Comida</option>
+            <option value="Transporte">Transporte</option>
+            <option value="Ocio">Ocio</option>
+            <option value="Otros">Otros</option>
+          </select>
+        </div>
+        <button id="btn-reset" class="btn btn-ghost"><i class="fa-solid fa-eraser"></i> Borrar filtros</button>
+        <label class="check">
+          <input type="checkbox" id="chkGrafConFiltros"/><!-- desmarcado: las gráficas muestran todo -->
+          <span>Aplicar filtros a los gráficos</span>
+        </label>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Descripción</th>
+            <th>Monto (€)</th>
+            <th>Categoría</th>
+            <th>Fecha</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="tablaGastos"></tbody>
+      </table>
+      <p id="total" style="margin-top:10px; font-weight:700;"></p>
+
+      <div class="charts">
+        <div class="chart-card">
+          <h5><i class="fa-solid fa-chart-pie"></i> Por categoría</h5>
+          <canvas id="chartByCategory"></canvas>
+        </div>
+        <div class="chart-card">
+          <h5><i class="fa-solid fa-chart-column"></i> Por mes (últimos 12)</h5>
+          <canvas id="chartByMonth"></canvas>
+        </div>
+        <div class="chart-card">
+          <h5><i class="fa-solid fa-chart-line"></i> Tendencia 30 días</h5>
+          <canvas id="chartTrend"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <!-- CALCULADORA -->
+    <section id="calculadora">
+      <h3 style="margin-top:0;">Calculadora</h3>
+      <input type="text" class="calc-display" id="calc-display" readonly />
+      <div class="calc-buttons">
+        <button>7</button><button>8</button><button>9</button><button>/</button>
+        <button>4</button><button>5</button><button>6</button><button>*</button>
+        <button>1</button><button>2</button><button>3</button><button>-</button>
+        <button>0</button><button>.</button><button>=</button><button>+</button>
+        <button>C</button>
+      </div>
+    </section>
+
+    <!-- METAS -->
+    <section id="metas">
+      <h3 style="margin-top:0;">Metas y objetivos</h3>
+      <p>Define tus metas financieras y sigue tu progreso.</p>
+      <button class="btn btn-ghost"><i class="fa-solid fa-plus"></i> Añadir meta</button>
+    </section>
+  </main>
+
+  <!-- Chart.js (UMD) — cargar ANTES del script de la app -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+  <script>
+    /* ========= Utilidades ========= */
+    const log = (...a)=>console.log('[MiGestor+]',...a);
+    function toastOK(texto){
+      const t=document.createElement('div'); t.className='toast';
+      t.innerHTML=`<i class="fa-solid fa-check-circle"></i> ${texto}`;
+      document.body.appendChild(t); setTimeout(()=>t.remove(),2400);
+    }
+    const formatTick = (v)=>{
+      if (v >= 1_000_000) return (v/1_000_000).toFixed(1)+'M';
+      if (v >= 1_000)     return (v/1_000).toFixed(1)+'K';
+      return v;
+    };
+    const niceMax = (maxVal)=>{
+      const m = Math.max(0, maxVal);
+      if (m === 0) return 10;
+      const mag = Math.pow(10, Math.floor(Math.log10(m)));
+      const norm = m / mag;
+      let nice;
+      if (norm <= 1)      nice = 1;
+      else if (norm <= 2) nice = 2;
+      else if (norm <= 5) nice = 5;
+      else                nice = 10;
+      return Math.ceil(nice * mag * 1.15);
+    };
+
+    /* ========= Navegación ========= */
+    const links=[...document.querySelectorAll('nav a')];
+    const cards=[...document.querySelectorAll('.card')];
+    const sections=[...document.querySelectorAll('main section')];
+    function showSection(id){ sections.forEach(s=>s.classList.remove('active')); const t=document.getElementById(id); if(t) t.classList.add('active'); }
+    links.forEach(l=>l.addEventListener('click',()=>showSection(l.dataset.section)));
+    cards.forEach(c=>c.addEventListener('click',()=>showSection(c.dataset.section)));
+
+    /* ========= Storage y normalización ========= */
+    const LS_KEY='gastos';
+    const isISODate = s => typeof s === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(s);
+    const toNumber  = x => Number.isFinite(Number(x)) ? Number(Number(x).toFixed(2)) : 0;
+
+    function normalizeItem(x) {
+      if (!x || typeof x !== 'object') return null;
+      const descripcion = String(x.descripcion || '').trim();
+      const monto       = toNumber(x.monto);
+      const categoria   = String(x.categoria || 'Otros');
+      let fecha         = null;
+
+      if (isISODate(x.fecha)) {
+        fecha = x.fecha;
+      } else if (typeof x.fecha === 'string') {
+        const m = x.fecha.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+        if (m) fecha = `${m[3]}-${m[2]}-${m[1]}`;
+      }
+      const creadoEn = typeof x.creadoEn === 'string' ? x.creadoEn : new Date().toISOString();
+      const id       = x.id || (crypto.randomUUID ? crypto.randomUUID() : String(Date.now() + Math.random()));
+      if (!descripcion || !monto || !fecha) return null;
+      return { id, descripcion, monto, categoria, fecha, creadoEn };
+    }
+
+    function leerGastos(){
+      try{
+        const raw = JSON.parse(localStorage.getItem(LS_KEY) || '[]');
+        const norm = (Array.isArray(raw) ? raw : []).map(normalizeItem).filter(Boolean);
+        localStorage.setItem(LS_KEY, JSON.stringify(norm));
+        return norm;
+      }catch(e){
+        console.warn('LocalStorage inválido. Reset de "gastos".', e);
+        localStorage.removeItem(LS_KEY);
+        return [];
+      }
+    }
+    function guardarGastos(arr){ localStorage.setItem(LS_KEY, JSON.stringify(arr)); }
+    function agregarGasto(g){ const arr=leerGastos(); arr.push(g); guardarGastos(arr); }
+    function eliminarGasto(id){ const arr=leerGastos().filter(x=>x?.id!==id); guardarGastos(arr); }
+
+    /* ========= Nuevo Gasto ========= */
+    const $desc=document.getElementById('descripcion');
+    const $monto=document.getElementById('monto');
+    const $catSelect=document.getElementById('categoria');
+    const $fecha=document.getElementById('fecha');
+    const $btnGuardar=document.getElementById('btn-guardar');
+    const $msgGuardar=document.getElementById('msg-guardar');
+
+    // Icono dinámico categoría (compacto)
+    const $catIcon   = document.getElementById('catIcon');
+    const $catIconI  = document.getElementById('catIconI');
+    const CAT_MAP = {
+      'Comida'     : { icon: 'fa-utensils',         cls: 'cat-comida',     tip:'Comida' },
+      'Transporte' : { icon: 'fa-bus-simple',       cls: 'cat-transporte', tip:'Transporte' },
+      'Ocio'       : { icon: 'fa-champagne-glasses',cls: 'cat-ocio',       tip:'Ocio' },
+      'Otros'      : { icon: 'fa-shapes',           cls: 'cat-otros',      tip:'Otros' }
+    };
+    function updateCategoryIcon(catValue) {
+      const conf = CAT_MAP[catValue] || CAT_MAP['Otros'];
+      $catIcon.classList.remove('cat-comida','cat-transporte','cat-ocio','cat-otros');
+      $catIcon.classList.add(conf.cls);
+      $catIconI.className = `fa-solid ${conf.icon}`;
+      $catIcon.title = `Categoría: ${conf.tip}`;
+    }
+    updateCategoryIcon($catSelect.value);
+    $catSelect.addEventListener('change',()=>updateCategoryIcon($catSelect.value));
+
+    (function hoy(){
+      const d=new Date(), y=d.getFullYear(), m=String(d.getMonth()+1).padStart(2,'0'), day=String(d.getDate()).padStart(2,'0');
+      $fecha.value=`${y}-${m}-${day}`;
+    })();
+
+    function avisar(tipo,txt){
+      $msgGuardar.className=(tipo==='ok')?'alert-ok':'alert-error';
+      $msgGuardar.textContent=(tipo==='ok'?'✅ ':'⚠️ ')+txt;
+      setTimeout(()=>{ $msgGuardar.textContent=''; $msgGuardar.className=''; },2400);
+    }
+    function limpiarForm(){
+      $desc.value=''; $monto.value=''; $catSelect.value='Comida'; updateCategoryIcon('Comida');
+      const d=new Date(), y=d.getFullYear(), m=String(d.getMonth()+1).padStart(2,'0'), day=String(d.getDate()).padStart(2,'0');
+      $fecha.value=`${y}-${m}-${day}`;
+    }
+
+    $btnGuardar.addEventListener('click',()=>{
+      const descripcion=$desc.value.trim();
+      const monto=Number($monto.value);
+      const categoria=$catSelect.value;
+      const fecha=$fecha.value;
+
+      if(!descripcion) return avisar('error','La descripción es obligatoria.');
+      if(!Number.isFinite(monto)||monto<=0) return avisar('error','Introduce un monto válido (> 0).');
+      if(!fecha) return avisar('error','Selecciona una fecha.');
+
+      const gasto={ id:(crypto.randomUUID?crypto.randomUUID():String(Date.now()+Math.random())),
+        descripcion, monto:Number(monto.toFixed(2)), categoria, fecha, creadoEn:new Date().toISOString() };
+
+      try{
+        agregarGasto(gasto);
+        avisar('ok','Gasto guardado correctamente.');
+        toastOK('Gasto guardado correctamente.');
+        limpiarForm();
+        showSection('mis-gastos');
+        renderAll();
+      }catch(e){
+        console.error('Error guardando gasto',e);
+        avisar('error','No se pudo guardar el gasto. Revisa permisos del navegador.');
+      }
+    });
+
+    /* ========= Mis gastos: tabla + filtros + gráficas ========= */
+    const $tabla=document.getElementById('tablaGastos');
+    const $filtroFecha=document.getElementById('filtroFecha');
+    const $filtroCategoria=document.getElementById('filtroCategoria');
+    const $btnReset=document.getElementById('btn-reset');
+    const $total=document.getElementById('total');
+    const $chkGraf=document.getElementById('chkGrafConFiltros'); // desmarcado por defecto
+
+    function fmtFecha(ymd){ const [y,m,d]=ymd.split('-'); return `${d}/${m}/${y}`; }
+    function safeSort(a, b) {
+      const fa = (a && a.fecha)    ? a.fecha    : '';
+      const fb = (b && b.fecha)    ? b.fecha    : '';
+      const ca = (a && a.creadoEn) ? a.creadoEn : '';
+      const cb = (b && b.creadoEn) ? b.creadoEn : '';
+      return fb.localeCompare(fa) || cb.localeCompare(ca);
+    }
+    function obtenerFiltrados(){
+      let gastos = leerGastos().filter(Boolean);
+      try { gastos = gastos.sort(safeSort); } catch (e) { console.warn('Ordenación falló, seguimos sin ordenar:', e); }
+      const fCat   = $filtroCategoria.value || '';
+      const fFecha = $filtroFecha.value     || '';
+      return gastos.filter(g =>
+        (!fCat   || g.categoria === fCat) &&
+        (!fFecha || g.fecha     === fFecha)
+      );
+    }
+    function renderTabla(){
+      const items=obtenerFiltrados();
+      $tabla.innerHTML=''; let suma=0;
+      if(items.length===0){
+        $tabla.innerHTML=`<tr><td colspan="5" style="text-align:center; color:#a8b3cc;">Sin resultados</td></tr>`;
+      }else{
+        for(const g of items){
+          suma+=g.monto;
+          const tr=document.createElement('tr');
+          tr.innerHTML=`
+            <td>${g.descripcion}</td>
+            <td>${g.monto.toFixed(2)}</td>
+            <td>${g.categoria}</td>
+            <td>${fmtFecha(g.fecha)}</td>
+            <td class="acciones">
+              <button class="btn-delete" aria-label="Eliminar" title="Eliminar">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </td>
+          `;
+          tr.querySelector('.btn-delete').addEventListener('click',()=>{ if(confirm('¿Eliminar este gasto?')){ eliminarGasto(g.id); renderAll(); }});
+          $tabla.appendChild(tr);
+        }
+      }
+      $total.textContent=`Total mostrado: € ${suma.toFixed(2)}`;
+    }
+
+    // Gráficas simples y sutiles
+    const charts={cat:null, mes:null, trend:null};
+    function destroyCharts(){ for(const k in charts){ if(charts[k]){ charts[k].destroy(); charts[k]=null; } } }
+
+    // Paleta suave para todas
+    const palette = {
+      cat: ['#9aa5ff','#8bd6ff','#86e3b6','#ffd27a','#ff8ea0','#c7a4ff'],
+      bar: 'rgba(90,200,250,0.25)',
+      barBorder:'#5ac8fa',
+      line:'#9aa5ff',
+      lineFill:'rgba(154,165,255,0.18)'
+    };
+
+    function datosByCategory(items){
+      const acc={}; for(const g of items) acc[g.categoria]=(acc[g.categoria]||0)+g.monto;
+      const labels=Object.keys(acc), data=labels.map(l=>acc[l]);
+      return { labels, data, colors: palette.cat.slice(0,labels.length) };
+    }
+    function datosByMonth(items){
+      const hoy=new Date(); const series=[]; for(let i=11;i>=0;i--){ const d=new Date(hoy.getFullYear(),hoy.getMonth()-i,1); series.push({y:d.getFullYear(), m:d.getMonth()+1}); }
+      const key=(y,m)=>`${y}-${String(m).padStart(2,'0')}`; const map=new Map(series.map(x=>[key(x.y,x.m),0]));
+      for(const g of items){ const [y,m]=g.fecha.split('-'); const k=`${y}-${m}`; if(map.has(k)) map.set(k, map.get(k)+g.monto); }
+      const labels=series.map(x=>`${String(x.m).padStart(2,'0')}/${String(x.y).slice(-2)}`); const data=series.map(x=>map.get(key(x.y,x.m)));
+      return { labels, data };
+    }
+    function datosTrend(items){
+      const hoy=new Date(); const days=[]; for(let i=29;i>=0;i--){ const d=new Date(hoy); d.setDate(hoy.getDate()-i); days.push(d); }
+      const keyOf=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+      const map=new Map(days.map(d=>[keyOf(d),0])); for(const g of items){ if(map.has(g.fecha)) map.set(g.fecha, map.get(g.fecha)+g.monto); }
+      const labels=days.map(d=>`${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}`); const data=days.map(d=>map.get(keyOf(d)));
+      return { labels, data };
+    }
+
+    function renderCharts(){
+      if(typeof Chart==='undefined'){ console.info('Chart.js no cargado: se omiten gráficas'); return; }
+      const todos=leerGastos().filter(Boolean);
+      const base=$chkGraf.checked ? obtenerFiltrados() : todos;
+
+      // --- Por categoría (doughnut) sutil
+      const cat=datosByCategory(base);
+      charts.cat=new Chart(document.getElementById('chartByCategory'),{
+        type:'doughnut',
+        data:{labels:cat.labels, datasets:[{data:cat.data, backgroundColor:cat.colors, borderColor:'rgba(255,255,255,.15)', borderWidth:1}]},
+        options:{ cutout:'68%', plugins:{legend:{position:'bottom', labels:{color:'#e9ecf1'}}}, responsive:true, maintainAspectRatio:false }
+      });
+
+      // --- Por mes (bar) con eje Y ajustado y barras discretas
+      const mes=datosByMonth(base);
+      const maxMes = niceMax(Math.max(...mes.data));
+      charts.mes=new Chart(document.getElementById('chartByMonth'),{
+        type:'bar',
+        data:{labels:mes.labels, datasets:[{label:'€', data:mes.data, backgroundColor:palette.bar, borderColor:palette.barBorder, borderWidth:1, borderRadius:8, barThickness:'flex', maxBarThickness:36}]},
+        options:{
+          scales:{
+            x:{ ticks:{ color:'#cfd6e8' }, grid:{ color:'rgba(255,255,255,.06)'} },
+            y:{ ticks:{ color:'#cfd6e8', callback:formatTick }, grid:{ color:'rgba(255,255,255,.06)'}, beginAtZero:true, suggestedMax:maxMes, max:maxMes }
+          },
+          plugins:{ legend:{ labels:{ color:'#e9ecf1' } } },
+          responsive:true, maintainAspectRatio:false
+        }
+      });
+
+      // --- Tendencia 30 días (line) sutil
+      const tr=datosTrend(base);
+      const maxTrend = niceMax(Math.max(...tr.data));
+      charts.trend=new Chart(document.getElementById('chartTrend'),{
+        type:'line',
+        data:{labels:tr.labels, datasets:[{label:'€ / día', data:tr.data, fill:true, borderColor:palette.line, backgroundColor:palette.lineFill, tension:.25, pointRadius:2, pointBackgroundColor:'#fff'}]},
+        options:{
+          scales:{
+            x:{ ticks:{ color:'#cfd6e8' }, grid:{ color:'rgba(255,255,255,.06)' } },
+            y:{ ticks:{ color:'#cfd6e8', callback:formatTick }, grid:{ color:'rgba(255,255,255,.06)'}, beginAtZero:true, suggestedMax:maxTrend, max:maxTrend }
+          },
+          plugins:{ legend:{ labels:{ color:'#e9ecf1' } } },
+          responsive:true, maintainAspectRatio:false
+        }
+      });
+    }
+
+    function renderAll(){ renderTabla(); destroyCharts(); renderCharts(); }
+
+    // Filtros
+    document.getElementById('btn-reset').addEventListener('click',()=>{ $filtroFecha.value=''; $filtroCategoria.value=''; renderAll(); });
+    $filtroFecha.addEventListener('change',renderAll);
+    $filtroCategoria.addEventListener('change',renderAll);
+    $chkGraf.addEventListener('change',renderAll);
+
+    /* ========= Calculadora ========= */
+    const display=document.getElementById('calc-display');
+    const buttons=[...document.querySelectorAll('.calc-buttons button')];
+    let calcValue='';
+    buttons.forEach(b=>b.addEventListener('click',()=>{
+      const v=b.textContent;
+      if(v==='C'){ calcValue=''; display.value=''; }
+      else if(v==='='){ try{ calcValue=String(eval(calcValue)); display.value=calcValue; }catch{ display.value='Error'; calcValue=''; } }
+      else{ calcValue+=v; display.value=calcValue; }
+    }));
+
+    // Render inicial
+    document.addEventListener('DOMContentLoaded',()=>{ renderAll(); });
+  </script>
+</body>
+</html>
